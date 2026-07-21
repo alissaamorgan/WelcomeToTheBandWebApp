@@ -1,0 +1,27 @@
+div{
+    display: "flex";
+    justify-content: "center";
+    align-items: "center";
+    height: "100vh";
+    background-color: brown;
+}
+.homeimage{
+    background-image: url('C:\Users\aliss\BasicWebPage\responsive-navbar\src\assets\Welcomescreen.gif');
+    height: 100vh;
+    object-fit: fill;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: grid;
+}
+.homeButtons{
+    display: contents;
+    background: none;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: self-end;
+    padding: 50px;
+}
+
+.homeOptions{
+    height: 25%;
+}
