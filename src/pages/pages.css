@@ -2,10 +2,9 @@
     --header-height: 65px;
 }
 
-@media screen and (max-width: 700px) {
+@media (max-width: 1370px) {
     .characterSheetPhone, .characterSheetSheet{   
-        flex-direction: row !important;
-        width: 100% !important;
+        width: fit-content!important;
     }
     .column {
         width: 100%;
@@ -37,7 +36,7 @@
     background-color: #6e1212;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     max-height: fit-content;
     align-items: start;
     padding: 10px;
@@ -88,43 +87,131 @@
 
 .characterSheetSheet{
     height: 100%;
-    max-width: 1320px;
     width: 65%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     justify-content: center;
 }
 
 .characterSheetModStats{
-    height: 400px;
-    max-height: 45%;
-    background-color: darkgreen;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    min-height: 400px;
+    height: fit-content;
 }
 
-.characterSheetModStats::after{
+.table{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center
+}
+
+.table::after{
     content: "";
     display: table;
     clear: both;
 }
 
-.column {
-    float: left;
-    width: 33.33%;
-    padding: 10px;
-    height: 100%;
-    background-color: aqua;
+.characterSheetAutopsy{
+    align-content: center;
+    justify-content: center;
+    width: fit-content;
 }
 
-.characterSheetHP{
-    
+.autopsyImage{
+    height: 100%;
+    max-height: 440px;
+    border: solid;
+    border-color: black;
+    border-radius: 2px;
+}
+
+.characterSheetInteractive{
+    width: min-content;
+}
+
+.row h3{
+    width: 100%;
+    justify-self: center;
+    text-align: center;
+    height: 40%;
+}
+
+.interactiveCounterBox{
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    border-color: black;
+    border-radius: 2px;
+    border: solid;
+    background-color: white;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.counter{
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    margin: 10px;
+}
+
+table{
+    width: 100%;
+    text-align: left;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    justify-content: space-between;
+}
+
+th{
+    text-align: center;
+}
+
+td{
+    font-size: 1em;
+    margin-top: 1.33em;
+    margin-bottom: 1.33em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+    padding: 4px;
+}
+
+.checkbox{
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+}
+
+.checkbox:hover{
+    cursor: pointer;
+}
+
+.characterSheetDebuffs{
+    background-color: white;
+    height: 100%;
+    max-height: 440px;
+    border: solid;
+    border-color: black;
+    border-radius: 2px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+.item {
+  background: #f0f0f0;
+  padding: 20px;
 }
 
 .characterSheet{
-    max-height: 50%;
-    height: 400px;
+    max-height: 400px;
+    height: fit-content;
     overflow-x: scroll;
-    justify-content: center;
+    width: fit-content;
+    border: solid;
+    border-color: black;
+    border-radius: 2px;
 }
