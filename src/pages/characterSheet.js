@@ -6,10 +6,9 @@ import phone from '../assets/Phone.png'
 import exampleSheet from '../assets/ExampleSheet.png'
 import autopsy from '../assets/Autopsy.png'
 import DynamicDebuffsTable from './dynamicTable.js'
-import {health} from '../characterStats/characterA.js'
 
 const CharacterSheet = () => {
-    const [countHP, setCountHP] = useState(health);
+    const [countHP, setCountHP] = useState(0);
     const [countSpellPoints, setCountSpellPoints] = useState(0);
 
     return (
