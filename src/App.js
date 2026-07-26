@@ -8,12 +8,12 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
-import Home from "./pages/home";
-import CharacterCreation from "./pages/characterCreation";
-import CharacterSelection from "./pages/characterSelection";
-import CharacterSheet from "./pages/characterSheet";
-import Blogs from "./pages/blogs";
-import SignUp from "./pages/signup";
+import Home from "./pages/home.js";
+import CharacterCreation from "./pages/characterCreation.js";
+import CharacterSelection from "./pages/characterSelection.js";
+import CharacterSheet from "./pages/characterSheet.js";
+import Blogs from "./pages/blogs.js";
+import SignUp from "./pages/signup.js";
 
 function App() {
     return (
