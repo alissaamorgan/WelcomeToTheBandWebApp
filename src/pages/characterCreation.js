@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import './pages.css';
-import { useApiSocket } from "../api/useApiSocket.js";
+import { createOrUpdateCharacter } from "../api/useApiSocket.js";
 
 const CharacterCreation = () => {
     const [nextId, setNextId] = useState(1);
@@ -11,26 +11,19 @@ const CharacterCreation = () => {
     const [spellPool, setSpellPool] = useState(0);
     const [maxSpellPool, setMaxSpellPool] = useState(0);
 
-    async function handleSubmit(e) {
+    function setHpandMaxHp(numberInput){
+        setHp(numberInput);
+        setMaxHp(numberInput);
+    }
 
-        const id = nextId;
-
-        const res = await fetch(`http://localhost:3001/api/characters/${id}`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({name, hp, maxHp, tempHp, spellPool, maxSpellPool}),
-        });
-
-        if (!res.ok) {
-            const txt = await res.text();
-            alert(`Save failed: ${txt}`);
-        return;
-        }
+    function setSpellPoolandMaxSpellPool(numberInput){
+        setSpellPool(numberInput);
+        setMaxSpellPool(numberInput);
     }
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={createOrUpdateCharacter({id: nextId, name, hp, maxHp, tempHp, spellPool, maxSpellPool})}>
         <div>Next id: <b>{nextId}</b></div>
 
         <div>
@@ -39,21 +32,13 @@ const CharacterCreation = () => {
         </div>
 
         <div>
-            <label>HP:</label>
-            <input
-            type="number"
-            value={hp}
-            onChange={(e) => setHp(Number(e.target.value))}
-            />
+            <label>Max HP:</label>
+            <input type="number" value={maxHp} onChange={(e) => setHpandMaxHp(Number(e.target.value))}/>
         </div>
 
         <div>
-            <label>spellPool:</label>
-            <input
-            type="number"
-            value={spellPool}
-            onChange={(e) => setSpellPool(Number(e.target.value))}
-            />
+            <label>Max Spell Pool:</label>
+            <input type="number" value={maxSpellPool} onChange={(e) => setSpellPoolandMaxSpellPool(Number(e.target.value))}/>
         </div>
         <button type="submit">Add character</button>
         </form>
