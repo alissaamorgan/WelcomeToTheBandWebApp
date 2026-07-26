@@ -57,6 +57,11 @@ async function getCharacters() {
   return rows.map(toCharacter);
 }
 
+async function getCharacterById(id) {
+  const rows = await db.all("SELECT * FROM characters WHERE id = ?", id);
+  return rows.map(toCharacter);
+}
+
 async function broadcastCharacters() {
   const characters = await getCharacters();
   const payload = JSON.stringify({ type: "characters_updated", characters });
@@ -66,17 +71,44 @@ async function broadcastCharacters() {
   }
 }
 
-app.get("/api/characters", async (_req, res) => {
+app.get("/api/getAllCharacters", async (_req, res) => {
   res.json(await getCharacters());
 });
 
-app.post("/api/characters/:id", async (req, res) => {
+app.get("/api/getCharacter/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  res.json(await getCharacterById(id));
+});
+
+app.post("/api/createOrUpdateCharacter/:id", async (req, res) => {
   const id = Number(req.params.id);
   const { name, hp, maxHp, tempHp, spellPool, maxSpellPool} = req.body;
 
   console.log({ id, name, hp, maxHp, tempHp, spellPool, maxSpellPool });
 
 
+  await db.run(
+    `
+    INSERT INTO characters (id, name, hp, maxHp, tempHp, spellPool, maxSpellPool)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(id) DO UPDATE SET
+      name=excluded.name,
+      hp=excluded.hp,
+      maxHp=excluded.maxHp,
+      tempHp=excluded.tempHp,
+      spellPool=excluded.spellPool,
+      maxSpellPool=excluded.maxSpellPool
+    `,
+    [id, name, hp, maxHp, tempHp, spellPool, maxSpellPool]
+  );
+
+  await broadcastCharacters?.();
+  res.json({ ok: true });
+});
+
+app.post("/api/UpdateCharacter", async (req, res) => {
+  const { id, name, hp, maxHp, tempHp, spellPool, maxSpellPool} = req.body;
+  console.log({ id, name, hp, maxHp, tempHp, spellPool, maxSpellPool });
   await db.run(
     `
     INSERT INTO characters (id, name, hp, maxHp, tempHp, spellPool, maxSpellPool)

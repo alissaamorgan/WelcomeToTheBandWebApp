@@ -2,29 +2,44 @@ const apiUrl = "http://localhost:3001";
 
 export const getCharacters = async () => {
   try {
-    const res = await fetch(apiUrl + `/api/characters`, {
+    const response = await fetch(apiUrl + `/api/getAllCharacters`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
-
-    if (!res.ok) {
-      const txt = await res.text();
-      throw new Error(txt);
-    }
-
-    const charactersArray = await res.json();
-    return charactersArray;
-  } catch (err) {
-    alert(`Network error: ${String(err)}`);
-    return []; // important so callers get an array
+      if (!response.ok) {
+        const txt = await response.text();
+        throw new Error(txt);
+      }
+      const charactersArray = await response.json();
+      return charactersArray;
+    } catch (err) {
+      alert(`Network error: ${String(err)}`);
+      return []; // important so callers get an array
   }
 };
+
+export async function getCharacterById(id) {
+    try {
+      const response = await fetch(apiUrl + `/api/getCharacter/${id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        const txt = await response.text();
+        throw new Error(txt);
+      }
+      return await response.json();
+    } catch (err) {
+      alert(`Network error: ${String(err)}`);
+      return []; // important so callers get an array
+    }
+}
 
 export function createOrUpdateCharacter({id, name, hp, maxHp, tempHp, spellPool, maxSpellPool}) {
   return async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(apiUrl + `/api/characters/${id}`, {
+      const response = await fetch(apiUrl + `/api/createOrUpdateCharacter/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({name, hp, maxHp, tempHp, spellPool, maxSpellPool}),
@@ -40,5 +55,23 @@ export function createOrUpdateCharacter({id, name, hp, maxHp, tempHp, spellPool,
     }catch (err) {
       alert(`Network error: ${String(err)}`);
     }
+  }
+}
+
+export async function UpdateCharacter(character) {
+  try {
+    const response = await fetch(apiUrl + `/api/UpdateCharacter`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(character),
+  });
+
+  if (!response.ok) {
+    const txt = await response.text();
+    alert(`Save failed: ${txt}`);
+    return;
+  }
+  }catch (err) {
+    alert(`Network error: ${String(err)}`);
   }
 }

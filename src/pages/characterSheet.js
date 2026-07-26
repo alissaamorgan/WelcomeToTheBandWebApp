@@ -1,4 +1,5 @@
-import {React, useState} from "react";
+import { useEffect, useState, React } from "react";
+import { useParams } from "react-router-dom";
 import './pages.css';
 import characterSelection from '../assets/CharacterSelection.png'
 import longRestButton from '../assets/LongRestButton.png'
@@ -6,11 +7,31 @@ import phone from '../assets/Phone.png'
 import exampleSheet from '../assets/ExampleSheet.png'
 import autopsy from '../assets/Autopsy.png'
 import DynamicDebuffsTable from './dynamicTable.js'
+import {getCharacterById, UpdateCharacter} from "../api/useApiSocket.js";
 
 const CharacterSheet = () => {
-    const [countHP, setCountHP] = useState(0);
-    const [countSpellPoints, setCountSpellPoints] = useState(0);
-
+    const { id } = useParams();
+    const [character, setCharacter] = useState(null);
+    useEffect(() => {
+        (async () => {
+            const arr = await getCharacterById(id);
+            setCharacter(arr[0] ?? null);
+        })();
+        }, []);
+    function changeCharacterHP(value){
+        setCharacter((prev) => {
+            const next = {...prev, hp: value};
+            UpdateCharacter(next);
+            return next;
+        });
+    }
+    function changeCharacterSpellPool(value){
+        setCharacter((prev) => {
+            const next = {...prev, spellPool: value};
+            UpdateCharacter(next);
+            return next;
+        });
+    }
     return (
         <div>
         <div className="characterSheetHeader">
@@ -30,11 +51,11 @@ const CharacterSheet = () => {
                         <div className = "row">
                             <div className="interactiveCounterBox">
                                 <h3>Current Hit Points</h3>
-                                <button type="button" className="hpCounterDown, counter" onClick={() => setCountHP((countHP) => countHP - 1)}>
+                                <button type="button" className="hpCounterDown, counter" onClick={() => changeCharacterHP(character.hp - 1)}>
                                         -
                                 </button>
-                                <h4>{countHP}</h4>
-                                <button type="button" className="hpCounterUp, counter" onClick={() => setCountHP((countHP) => countHP + 1)}>
+                                <h4>{character?.hp ?? '-'}</h4>
+                                <button type="button" className="hpCounterUp, counter" onClick={() => changeCharacterHP(character.hp + 1)}>
                                         +
                                 </button>
                             </div>
@@ -42,11 +63,11 @@ const CharacterSheet = () => {
                         <div className = "row">
                             <div className="interactiveCounterBox">
                                 <h3>Current Spell Points</h3>
-                                <button type="button" className="counter" onClick={() => setCountSpellPoints((countSpellPoints) => countSpellPoints - 1)}>
+                                <button type="button" className="counter" onClick={() => changeCharacterSpellPool(character.spellPool - 1)}>
                                         -
                                 </button>
-                                <h4>{countSpellPoints}</h4>
-                                <button type="button" className="counter" onClick={() => setCountSpellPoints((countSpellPoints) => countSpellPoints + 1)}>
+                                <h4>{character?.spellPool ?? '-'}</h4>
+                                <button type="button" className="counter" onClick={() => changeCharacterSpellPool(character.spellPool + 1)}>
                                         +
                                 </button>
                             </div>

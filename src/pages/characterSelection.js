@@ -4,14 +4,13 @@ import {getCharacters} from "../api/useApiSocket.js";
 
 
 const CharacterSelection = () => {
-const [characters, setCharacters] = useState([]);
-
+    const [characters, setCharacters] = useState([]);
     useEffect(() => {
-    (async () => {
-        const arr = await getCharacters();
-        setCharacters(arr);
-    })();
-    }, []);
+        (async () => {
+            const arr = await getCharacters();
+            setCharacters(arr);
+        })();
+        }, []);
     return (
         <div>
             <h1>Character Selection</h1>
