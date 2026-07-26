@@ -35,14 +35,14 @@ export async function getCharacterById(id) {
     }
 }
 
-export function createOrUpdateCharacter({id, name, hp, maxHp, tempHp, spellPool, maxSpellPool}) {
+export function createOrUpdateCharacter({id, name, hp, maxHp, tempHp,  classPoints, maxClassPoints}) {
   return async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(apiUrl + `/api/createOrUpdateCharacter/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({name, hp, maxHp, tempHp, spellPool, maxSpellPool}),
+        body: JSON.stringify({name, hp, maxHp, tempHp,  classPoints, maxClassPoints}),
     });
 
     if (!response.ok) {

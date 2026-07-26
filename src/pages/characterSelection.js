@@ -17,7 +17,7 @@ const CharacterSelection = () => {
              <ul>
                 {characters.map((character) => (
                 <li key={character.id}>{character.name}, maxHp: {character.maxHp}, HP: {character.hp}, 
-                MaxSpellPool: {character.maxSpellPool}, SpellPool: {character.spellPool}</li>
+                maxClassPoints: {character.maxClassPoints}, classPoints: {character.classPoints}</li>
                 ))}
             </ul>
         </div>

@@ -14,14 +14,49 @@ const db = await open({
 });
 
 await db.exec(`
+  CREATE TABLE IF NOT EXISTS race (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    strengthBonus BOOLEAN DEFAULT 0 NOT NULL,
+    dexterityBonus BOOLEAN DEFAULT 0 NOT NULL,
+    constitutionBonus BOOLEAN DEFAULT 0 NOT NULL,
+    intelligenceBonus BOOLEAN DEFAULT 0 NOT NULL,
+    wisdomBonus BOOLEAN DEFAULT 0 NOT NULL,
+    charismaBonus BOOLEAN DEFAULT 0 NOT NULL,
+    savingThrowProficency TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS class (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    hitDice INTEGER DEFAULT 0 NOT NULL
+  );
+
   CREATE TABLE IF NOT EXISTS characters (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
+    raceid INTEGER,
+    classid INTEGER,
     hp INTEGER NOT NULL,
     maxHp INTEGER NOT NULL,
-    tempHp INTEGER NOT NULL,
-    spellPool INTEGER NOT NULL,
-    maxSpellPool INTEGER NOT NULL
+    tempHp INTEGER DEFAULT 0 NOT NULL,
+    classPoints INTEGER NOT NULL,
+    maxClassPoints INTEGER NOT NULL,
+    deathS1 BOOLEAN DEFAULT 0 NOT NULL,
+    deathS2 BOOLEAN DEFAULT 0 NOT NULL,
+    deathS3 BOOLEAN DEFAULT 0 NOT NULL,
+    deathF1 BOOLEAN DEFAULT 0 NOT NULL,
+    deathF2 BOOLEAN DEFAULT 0 NOT NULL,
+    deathF3 BOOLEAN DEFAULT 0 NOT NULL,
+    strength INTEGER DEFAULT 0 NOT NULL,
+    dexterity INTEGER DEFAULT 0 NOT NULL,
+    constitution INTEGER DEFAULT 0 NOT NULL,
+    intelligence INTEGER DEFAULT 0 NOT NULL,
+    wisdom INTEGER DEFAULT 0 NOT NULL,
+    charisma INTEGER DEFAULT 0 NOT NULL,
+    instrumentOrGenre TEXT DEFAULT "-" NOT NULL,
+    FOREIGN KEY (raceid) REFERENCES race(id),
+    FOREIGN KEY (classid) REFERENCES class(id)
   );
 `);
 
@@ -44,11 +79,26 @@ function toCharacter(characterRow){
     return {
       id: characterRow.id,
       name: characterRow.name,
+      raceid: characterRow.raceid,
+      classid: characterRow.classid,
       hp: characterRow.hp,
       maxHp: characterRow.maxHp,
       tempHp: characterRow.tempHp,
-      spellPool: characterRow.spellPool,
-      maxSpellPool: characterRow.maxSpellPool
+      classPoints: characterRow.classPoints,
+      maxClassPoints: characterRow.maxClassPoints,
+      deathS1: characterRow.deathS1,
+      deathS2: characterRow.deathS2,
+      deathS3: characterRow.deathS3,
+      deathF1: characterRow.deathF1,
+      deathF2: characterRow.deathF2,
+      deathF3: characterRow.deathF3,
+      strength: characterRow.strength,
+      dexterity: characterRow.dexterity,
+      constitution: characterRow.constitution,
+      intelligence: characterRow.intelligence,
+      wisdom: characterRow.wisdom,
+      charisma: characterRow.charisma,
+      instrumentOrGenre: characterRow.instrumentOrGenre
   };
 }
 
@@ -82,24 +132,24 @@ app.get("/api/getCharacter/:id", async (req, res) => {
 
 app.post("/api/createOrUpdateCharacter/:id", async (req, res) => {
   const id = Number(req.params.id);
-  const { name, hp, maxHp, tempHp, spellPool, maxSpellPool} = req.body;
+  const { name, hp, maxHp, tempHp, classPoints, maxClassPoints} = req.body;
 
-  console.log({ id, name, hp, maxHp, tempHp, spellPool, maxSpellPool });
+  console.log({ id, name, hp, maxHp, tempHp, classPoints, maxClassPoints });
 
 
   await db.run(
     `
-    INSERT INTO characters (id, name, hp, maxHp, tempHp, spellPool, maxSpellPool)
+    INSERT INTO characters (id, name, hp, maxHp, tempHp, classPoints, maxClassPoints)
     VALUES (?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(id) DO UPDATE SET
       name=excluded.name,
       hp=excluded.hp,
       maxHp=excluded.maxHp,
       tempHp=excluded.tempHp,
-      spellPool=excluded.spellPool,
-      maxSpellPool=excluded.maxSpellPool
+      classPoints=excluded.classPoints,
+      maxClassPoints=excluded.maxClassPoints
     `,
-    [id, name, hp, maxHp, tempHp, spellPool, maxSpellPool]
+    [id, name, hp, maxHp, tempHp, classPoints, maxClassPoints]
   );
 
   await broadcastCharacters?.();
@@ -107,21 +157,21 @@ app.post("/api/createOrUpdateCharacter/:id", async (req, res) => {
 });
 
 app.post("/api/UpdateCharacter", async (req, res) => {
-  const { id, name, hp, maxHp, tempHp, spellPool, maxSpellPool} = req.body;
-  console.log({ id, name, hp, maxHp, tempHp, spellPool, maxSpellPool });
+  const { id, name, hp, maxHp, tempHp, classPoints, maxClassPoints} = req.body;
+  console.log({ id, name, hp, maxHp, tempHp, classPoints, maxClassPoints });
   await db.run(
     `
-    INSERT INTO characters (id, name, hp, maxHp, tempHp, spellPool, maxSpellPool)
+    INSERT INTO characters (id, name, hp, maxHp, tempHp, classPoints, maxClassPoints)
     VALUES (?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(id) DO UPDATE SET
       name=excluded.name,
       hp=excluded.hp,
       maxHp=excluded.maxHp,
       tempHp=excluded.tempHp,
-      spellPool=excluded.spellPool,
-      maxSpellPool=excluded.maxSpellPool
+      classPoints=excluded.classPoints,
+      maxClassPoints=excluded.maxClassPoints
     `,
-    [id, name, hp, maxHp, tempHp, spellPool, maxSpellPool]
+    [id, name, hp, maxHp, tempHp, classPoints, maxClassPoints]
   );
 
   await broadcastCharacters?.();

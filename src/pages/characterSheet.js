@@ -25,9 +25,9 @@ const CharacterSheet = () => {
             return next;
         });
     }
-    function changeCharacterSpellPool(value){
+    function changeCharacterClassPoints(value){
         setCharacter((prev) => {
-            const next = {...prev, spellPool: value};
+            const next = {...prev, classPoints: value};
             UpdateCharacter(next);
             return next;
         });
@@ -63,11 +63,11 @@ const CharacterSheet = () => {
                         <div className = "row">
                             <div className="interactiveCounterBox">
                                 <h3>Current Spell Points</h3>
-                                <button type="button" className="counter" onClick={() => changeCharacterSpellPool(character.spellPool - 1)}>
+                                <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints - 1)}>
                                         -
                                 </button>
-                                <h4>{character?.spellPool ?? '-'}</h4>
-                                <button type="button" className="counter" onClick={() => changeCharacterSpellPool(character.spellPool + 1)}>
+                                <h4>{character?.classPoints ?? '-'}</h4>
+                                <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints + 1)}>
                                         +
                                 </button>
                             </div>
