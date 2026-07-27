@@ -157,21 +157,27 @@ app.post("/api/createOrUpdateCharacter/:id", async (req, res) => {
 });
 
 app.post("/api/UpdateCharacter", async (req, res) => {
-  const { id, name, hp, maxHp, tempHp, classPoints, maxClassPoints} = req.body;
-  console.log({ id, name, hp, maxHp, tempHp, classPoints, maxClassPoints });
+  const { id, name, hp, maxHp, tempHp, classPoints, maxClassPoints, deathS1, deathS2, deathS3, deathF1, deathF2, deathF3} = req.body;
+  console.log({ id, name, hp, maxHp, tempHp, classPoints, maxClassPoints, deathS1, deathS2, deathS3, deathF1, deathF2, deathF3 });
   await db.run(
     `
-    INSERT INTO characters (id, name, hp, maxHp, tempHp, classPoints, maxClassPoints)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO characters (id, name, hp, maxHp, tempHp, classPoints, maxClassPoints, deathS1, deathS2, deathS3, deathF1, deathF2, deathF3)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(id) DO UPDATE SET
       name=excluded.name,
       hp=excluded.hp,
       maxHp=excluded.maxHp,
       tempHp=excluded.tempHp,
       classPoints=excluded.classPoints,
-      maxClassPoints=excluded.maxClassPoints
+      maxClassPoints=excluded.maxClassPoints,
+      deathS1=excluded.deathS1, 
+      deathS2=excluded.deathS2, 
+      deathS3=excluded.deathS3, 
+      deathF1=excluded.deathF1, 
+      deathF2=excluded.deathF2, 
+      deathF3=excluded.deathF3
     `,
-    [id, name, hp, maxHp, tempHp, classPoints, maxClassPoints]
+    [id, name, hp, maxHp, tempHp, classPoints, maxClassPoints, deathS1, deathS2, deathS3, deathF1, deathF2, deathF3]
   );
 
   await broadcastCharacters?.();

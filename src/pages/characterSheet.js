@@ -32,6 +32,15 @@ const CharacterSheet = () => {
             return next;
         });
     }
+    const toggleDeathCheckboxes = (key) => {
+        return setCharacter((prev) => {
+            const currentCheckStatus = prev?.[key] ?? 1; //default 1 if can't find
+            const toggleCurrentStatus = currentCheckStatus === 1 ? 0 : 1; //if is 1, set to 0. else set to 1
+            const next = {...prev, [key]: toggleCurrentStatus};
+            UpdateCharacter(next);
+            return next;
+        });
+    };
     return (
         <div>
         <div className="characterSheetHeader">
@@ -54,7 +63,7 @@ const CharacterSheet = () => {
                                 <button type="button" className="hpCounterDown, counter" onClick={() => changeCharacterHP(character.hp - 1)}>
                                         -
                                 </button>
-                                <h4>{character?.hp ?? '-'}</h4>
+                                <h4>{character?.hp ?? 0}</h4>
                                 <button type="button" className="hpCounterUp, counter" onClick={() => changeCharacterHP(character.hp + 1)}>
                                         +
                                 </button>
@@ -62,11 +71,11 @@ const CharacterSheet = () => {
                         </div>
                         <div className = "row">
                             <div className="interactiveCounterBox">
-                                <h3>Current Spell Points</h3>
+                                <h3>Current Class Points</h3>
                                 <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints - 1)}>
                                         -
                                 </button>
-                                <h4>{character?.classPoints ?? '-'}</h4>
+                                <h4>{character?.classPoints ?? 0}</h4>
                                 <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints + 1)}>
                                         +
                                 </button>
@@ -83,15 +92,21 @@ const CharacterSheet = () => {
                                     <tbody>
                                         <tr>
                                             <td>Successes</td>
-                                            <td><input className="checkbox" type="checkbox"></input></td>
-                                            <td><input className="checkbox" type="checkbox"></input></td>
-                                            <td><input className="checkbox" type="checkbox"></input></td>
+                                            <td><input className="checkbox" type="checkbox" 
+                                                checked={character?.deathS1 ?? 0} onChange={() => toggleDeathCheckboxes('deathS1')}></input></td>
+                                            <td><input className="checkbox" type="checkbox" 
+                                                checked={character?.deathS2 ?? 0} onChange={() => toggleDeathCheckboxes('deathS2')}></input></td>
+                                            <td><input className="checkbox" type="checkbox" 
+                                                checked={character?.deathS3 ?? 0} onChange={() => toggleDeathCheckboxes('deathS3')}></input></td>
                                         </tr>
                                         <tr>
                                             <td>Failures</td>
-                                            <td><input className="checkbox" type="checkbox"></input></td>
-                                            <td><input className="checkbox" type="checkbox"></input></td>
-                                            <td><input className="checkbox" type="checkbox"></input></td>
+                                            <td><input className="checkbox" type="checkbox" 
+                                                checked={character?.deathF1 ?? 0} onChange={() => toggleDeathCheckboxes('deathF1')}></input></td>
+                                            <td><input className="checkbox" type="checkbox" 
+                                                checked={character?.deathF2 ?? 0} onChange={() => toggleDeathCheckboxes('deathF2')}></input></td>
+                                            <td><input className="checkbox" type="checkbox" 
+                                                checked={character?.deathF3 ?? 0} onChange={() => toggleDeathCheckboxes('deathF3')}></input></td>
                                         </tr>
                                     </tbody>
                                 </table>

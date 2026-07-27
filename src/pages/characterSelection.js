@@ -1,6 +1,8 @@
 import { useEffect, useState, React } from "react";
 import './pages.css';
 import {getCharacters} from "../api/useApiSocket.js";
+import folder from '../assets/Folder.png'
+import characterCreator from '../assets/CharacterCreator.png'
 
 
 const CharacterSelection = () => {
@@ -13,13 +15,17 @@ const CharacterSelection = () => {
         }, []);
     return (
         <div>
-            <h1>Character Selection</h1>
-             <ul>
-                {characters.map((character) => (
-                <li key={character.id}>{character.name}, maxHp: {character.maxHp}, HP: {character.hp}, 
-                maxClassPoints: {character.maxClassPoints}, classPoints: {character.classPoints}</li>
+            <div className="characterSheetHeader">
+                <img className = "headerCharacterSelectionButton" src={characterCreator} alt="CharacterCreation" onClick={() => window.location = '/characterCreation'}></img>
+            </div>
+            <div className="characterSelectionBody">
+                {characters.map((character, index) => (
+                    <div className = "characterSelectionFolder" key={character.id} style={{ '--i': index }}>
+                        <h2 className="characterSelectionName">{character.name}</h2>
+                        <img className = "characterSelectionFolderImage" src={folder} alt="characterSelectionFolderImage" onClick={() => window.location = '/characterSheet/' + character.id}></img>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

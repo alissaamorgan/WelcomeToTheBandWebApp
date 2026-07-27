@@ -215,3 +215,31 @@ td{
     border-color: black;
     border-radius: 2px;
 }
+
+.characterSelectionBody{
+    background-color: black;
+}
+
+.characterSelectionFolder{
+    position: relative;
+    transform: translateX(calc(-10vw * var(--i)));
+    z-index: calc(var(--i));
+}
+
+.characterSelectionFolder:hover{
+    transform: translateY(-50px);
+    z-index: 999;
+}
+
+.characterSelectionName{
+    position: absolute;
+    top: 0.1%;
+    left: 8vw;
+    font-size: clamp(12px, 2vw, 28px);
+}
+
+.characterSelectionFolderImage{
+    min-width: 100%;
+    width: 100%;
+    height: fit-content;
+}
