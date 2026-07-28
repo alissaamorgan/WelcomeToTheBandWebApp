@@ -29,7 +29,8 @@ await db.exec(`
   CREATE TABLE IF NOT EXISTS class (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    hitDice INTEGER DEFAULT 0 NOT NULL
+    hitDice INTEGER DEFAULT 0 NOT NULL,
+    classPointName TEXT
   );
 
   CREATE TABLE IF NOT EXISTS characters (
@@ -121,6 +122,49 @@ async function broadcastCharacters() {
   }
 }
 
+function toRace(raceRow){
+    return {
+      id: raceRow.id,
+      name: raceRow.name,
+      strengthBonus: raceRow.strengthBonus,
+      dexterityBonus: raceRow.dexterityBonus,
+      constitutionBonus: raceRow.constitutionBonus,
+      intelligenceBonus: raceRow.intelligenceBonus,
+      wisdomBonus: raceRow.wisdomBonus,
+      charismaBonus: raceRow.charismaBonus,
+      savingThrowProficency: raceRow.savingThrowProficency
+  };
+}
+
+async function getRaces() {
+  const rows = await db.all("SELECT * FROM race ORDER BY id;");
+  return rows.map(toRace);
+}
+
+async function getRaceById(id) {
+  const rows = await db.all("SELECT * FROM race WHERE id = ?", id);
+  return rows.map(toRace);
+}
+
+function toClass(classRow){
+    return {
+      id: classRow.id,
+      name: classRow.name,
+      hitDice: classRow.hitDice,
+      classPointName: classRow.classPointName
+  };
+}
+
+async function getClasses() {
+  const rows = await db.all("SELECT * FROM class ORDER BY id;");
+  return rows.map(toClass);
+}
+
+async function getClassById(id) {
+  const rows = await db.all("SELECT * FROM class WHERE id = ?", id);
+  return rows.map(toClass);
+}
+
 app.get("/api/getAllCharacters", async (_req, res) => {
   res.json(await getCharacters());
 });
@@ -132,24 +176,26 @@ app.get("/api/getCharacter/:id", async (req, res) => {
 
 app.post("/api/createOrUpdateCharacter/:id", async (req, res) => {
   const id = Number(req.params.id);
-  const { name, hp, maxHp, tempHp, classPoints, maxClassPoints} = req.body;
+  const { name, hp, maxHp, tempHp, classPoints, maxClassPoints, raceid, classid} = req.body;
 
-  console.log({ id, name, hp, maxHp, tempHp, classPoints, maxClassPoints });
+  console.log({ id, name, hp, maxHp, tempHp, classPoints, maxClassPoints, raceid, classid });
 
 
   await db.run(
     `
-    INSERT INTO characters (id, name, hp, maxHp, tempHp, classPoints, maxClassPoints)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO characters (id, name, hp, maxHp, tempHp, classPoints, maxClassPoints, raceid, classid)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(id) DO UPDATE SET
       name=excluded.name,
       hp=excluded.hp,
       maxHp=excluded.maxHp,
       tempHp=excluded.tempHp,
       classPoints=excluded.classPoints,
-      maxClassPoints=excluded.maxClassPoints
+      maxClassPoints=excluded.maxClassPoints,
+      raceid=excluded.raceid,
+      classid=excluded.classid
     `,
-    [id, name, hp, maxHp, tempHp, classPoints, maxClassPoints]
+    [id, name, hp, maxHp, tempHp, classPoints, maxClassPoints, raceid, classid]
   );
 
   await broadcastCharacters?.();
@@ -182,4 +228,22 @@ app.post("/api/UpdateCharacter", async (req, res) => {
 
   await broadcastCharacters?.();
   res.json({ ok: true });
+});
+
+app.get("/api/getAllRaces", async (_req, res) => {
+  res.json(await getRaces());
+});
+
+app.get("/api/getRace/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  res.json(await getRaceById(id));
+});
+
+app.get("/api/getAllClasses", async (_req, res) => {
+  res.json(await getClasses());
+});
+
+app.get("/api/getClass/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  res.json(await getClassById(id));
 });

@@ -32,8 +32,18 @@
     height: 25%;
 }
 
+.characterSheetMain{
+    background-image: url('C:\Users\aliss\WelcomeToTheBandWebApp\src\assets\Folder.png');
+    background-color: black;
+    height: 100%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    display: grid;
+    padding-top: 5px;
+}
+
 .characterSheetPage{
-    background-color: #6e1212;
+    background-color: #5d1f0d;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -44,11 +54,9 @@
 
 .characterSheetHeader{
     height: var(--header-height);
-    background-color: black;
-    width: 100%;
     padding: 8px;
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
 }
 
 .headerCharacterSelectionButton{
@@ -67,6 +75,14 @@
 
 .headerLongRestButton:hover{
     cursor: pointer;
+}
+
+.characterSheetName{
+    position: absolute;
+    top: 2%;
+    left: 8vw;
+    font-size: clamp(12px, 2vw, 28px);
+    font-family: cursive;
 }
 
 .characterSheetPhone{
@@ -242,4 +258,37 @@ td{
     min-width: 100%;
     width: 100%;
     height: fit-content;
+}
+
+form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+label {display: block;}
+
+input[type=text], select, input[type=number] {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button[type=submit] {
+  width: 100%;
+  background-color: #6e1212;
+  color: white;
+  padding: 14px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type=submit]:hover {
+  background-color: #5a0f0f;
 }
