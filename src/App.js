@@ -12,8 +12,9 @@ import Home from "./pages/home.js";
 import CharacterCreation from "./pages/characterCreation.js";
 import CharacterSelection from "./pages/characterSelection.js";
 import CharacterSheet from "./pages/characterSheet.js";
-import Blogs from "./pages/blogs.js";
+import Blogs from "./pages/dmScreen.js";
 import SignUp from "./pages/signup.js";
+import DmScreen from "./pages/dmScreen.js";
 
 function App() {
     return (
@@ -25,7 +26,7 @@ function App() {
                 <Route path="/characterCreation" element={<CharacterCreation />} />
                 <Route path="/characterSelection" element={<CharacterSelection />} />
                 <Route path="/characterSheet/:id" element={<CharacterSheet />} />
-                <Route path="/blogs" element={<Blogs />} />
+                <Route path="/dmScreen" element={<DmScreen />} />
                 <Route path="/sign-up" element={<SignUp />} />
             </Routes>
         </Router>

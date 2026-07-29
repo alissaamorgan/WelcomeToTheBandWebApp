@@ -11,6 +11,7 @@
     "@types/better-sqlite3": "^7.6.13",
     "cors": "^2.8.6",
     "express": "^5.2.1",
+    "moon-phase-illuminated": "^2.2.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-icons": "^5.7.0",

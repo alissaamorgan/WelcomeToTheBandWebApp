@@ -237,17 +237,20 @@ td{
 
 .characterSelectionBody{
     background-color: black;
+    position: relative;
+    height: 800px;
 }
 
 .characterSelectionFolder{
-    position: relative;
-    transform: translateX(calc(-10vw * var(--i)));
+    position: absolute;
+    top: calc(var(--i) * 100px);
+    left:0;
+    /*transform: translateX(calc(10vw * var(--i)));*/
     z-index: calc(var(--i));
 }
 
 .characterSelectionFolder:hover{
     transform: translateY(-50px);
-    z-index: 999;
 }
 
 .characterSelectionName{
@@ -258,9 +261,7 @@ td{
 }
 
 .characterSelectionFolderImage{
-    min-width: 100%;
     width: 100%;
-    height: fit-content;
 }
 
 form {

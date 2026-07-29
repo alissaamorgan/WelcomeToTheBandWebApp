@@ -1,40 +1,37 @@
-var countDownDate = new Date().getTime()+ (4*60*60*1000);
+import {getMoonPhase} from 'moon-phase-illuminated';
 
-// Update the count down every 1 second
-var x = setInterval(function() {
+var FullDate = new Date('2005-04-01 8:00:00');
 
-  // Get today's date and time
-  var now = new Date().getTime();
-    
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-    
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-  // Output the result in an element with id="demo"
-  document.getElementById("real").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-  
-    // Find the distance between now and the count down date
-  var fakeDistance = distance * 12;
-    
-  // Time calculations for days, hours, minutes and seconds
-  var fakeDays = Math.floor(fakeDistance / (1000 * 60 * 60 * 24));
-  var fakeHours = Math.floor((fakeDistance ) / (1000 * 60 * 60));
-  var fakeMinutes = Math.floor((fakeDistance % (1000 * 60 * 60)) / (1000 * 60));
-  var fakeSeconds = Math.floor((fakeDistance % (1000 * 60)) / 1000);
-    
-  // Output the result in an element with id="demo"
-  document.getElementById("fake").innerHTML = fakeHours + ": "
-  + fakeMinutes;
-    
-  // If the count down is over, write some text 
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("real").innerHTML = "EXPIRED";
+export function getFakeDate(){
+  var date = FullDate.getDate();
+  var day = FullDate.getDay();
+  var month = FullDate.getMonth();
+  const monthName = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  return weekday[day] + ", " + monthName[month] + " " + date;
+
+}
+
+function padTime(time){
+  const pad = (time < 10) ? '0' : '';
+  return pad + time;
+}
+
+export function getFakeTime(){
+  var miltaryTime = FullDate.getHours();
+  var hour = miltaryTime > 12? Number(miltaryTime - 12) : miltaryTime;
+  var minute = FullDate.getMinutes();
+  var amOrPm = Math.floor(miltaryTime / 12) === 0? 'AM': 'PM';
+  return hour + ":" + padTime(minute) + " " + amOrPm;
+}
+
+export function getMoonAndSun(){
+  if(FullDate.getHours() >= 18 || FullDate.getHours() < 6){
+    const moonPhase = getMoonPhase(FullDate);
+    return moonPhase.name;
+  }else{
+    return "sun";
   }
-}, 1000);
+}
+
+export default {getFakeDate, getFakeTime, getMoonAndSun};

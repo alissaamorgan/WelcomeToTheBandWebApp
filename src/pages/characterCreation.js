@@ -3,7 +3,7 @@ import './pages.css';
 import { createOrUpdateCharacter, getClasses, getRaces } from "../api/useApiSocket.js";
 
 const CharacterCreation = () => {
-    const [nextId, setNextId] = useState(1);
+    const [nextId, setNextId] = useState(2);
     const [name, setName] = useState("");
     const [hp, setHp] = useState(0);
     const [maxHp, setMaxHp] = useState(0);
