@@ -151,7 +151,7 @@ function toClass(classRow){
       id: classRow.id,
       name: classRow.name,
       hitDice: classRow.hitDice,
-      classPointName: classRow.classPointName
+      classPointName: classRow.ClassPointName
   };
 }
 

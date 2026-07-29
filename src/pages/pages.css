@@ -1,5 +1,6 @@
 :root{
-    --header-height: 65px;
+    --header-height: 80px;
+    --font-family: "Courier New", Monospace;
 }
 
 @media (max-width: 1370px) {
@@ -9,6 +10,10 @@
     .column {
         width: 100%;
     }
+}
+
+body{
+    font-family: var(--font-family);
 }
 
 .homeimage{
@@ -34,12 +39,12 @@
 
 .characterSheetMain{
     background-image: url('C:\Users\aliss\WelcomeToTheBandWebApp\src\assets\Folder.png');
-    background-color: black;
-    height: 100%;
-    background-size: 100%;
+    background-size: 100vh;
     background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: left top;
+    background-origin: content-box;
     display: grid;
-    padding-top: 5px;
 }
 
 .characterSheetPage{
@@ -47,20 +52,34 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    max-height: fit-content;
     align-items: start;
-    padding: 10px;
+    height: max-content;
+    padding: 8px;
 }
 
 .characterSheetHeader{
     height: var(--header-height);
-    padding: 8px;
+    background-color: black;
+    width: 100%;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
+}
+
+.characterSheetName{
+    position: absolute;
+    top: calc(var(--header-height) * 0.4);
+    left: 55px;
+    font-size: x-large;
+}
+
+.headerFolderTab{
+    height: calc(var(--header-height) + 10px);
+    margin-left: 20px;
 }
 
 .headerCharacterSelectionButton{
-    height: 100%;
+    height: calc(var(--header-height) - 16px);
+    padding: 8px;
 }
 
 .headerCharacterSelectionButton:hover{
@@ -77,23 +96,6 @@
     cursor: pointer;
 }
 
-.characterSheetName{
-    position: absolute;
-    top: 2%;
-    left: 8vw;
-    font-size: clamp(12px, 2vw, 28px);
-    font-family: cursive;
-}
-
-.characterSheetPhone{
-    width: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-height: fit-content;
-    max-width: max-content;
-}
-
 .phone{
     height: 80%;
     max-height: 820px;
@@ -103,9 +105,9 @@
 
 .characterSheetSheet{
     height: 100%;
-    width: 65%;
     display: grid;
     justify-content: center;
+    width: calc(100% - 500px);
 }
 
 .characterSheetModStats{
@@ -225,11 +227,12 @@ td{
 .characterSheet{
     max-height: 400px;
     height: fit-content;
-    overflow-x: scroll;
+    overflow-y: scroll;
     width: fit-content;
     border: solid;
     border-color: black;
     border-radius: 2px;
+    background-color: white;
 }
 
 .characterSelectionBody{

@@ -8,6 +8,7 @@ import exampleSheet from '../assets/ExampleSheet.png'
 import autopsy from '../assets/Autopsy.png'
 import DynamicDebuffsTable from './dynamicTable.js'
 import folder from '../assets/Folder.png'
+import folderTab from '../assets/FolderTab.png'
 import {getCharacterById, UpdateCharacter, getRaceById, getClassById} from "../api/useApiSocket.js";
 
 const CharacterSheet = () => {
@@ -17,13 +18,19 @@ const CharacterSheet = () => {
     const [characterClass, setCharacterClass] = useState(null);
     useEffect(() => { (async () => {
             const arr = await getCharacterById(id);
-            setCharacter(arr[0] ?? null);
-            if(character){
-                setRace(await getRaceById(character.raceid));
-                setCharacterClass(await getClassById(character.classid));
+            const fetchCharacter = arr[0] ?? null;
+            setCharacter(fetchCharacter);
+            if(fetchCharacter){
+                const fetchRace = await getRaceById(fetchCharacter.raceid);
+                const fetchClass = await getClassById(fetchCharacter.classid);
+                setRace(fetchRace[0] ?? null);
+                setCharacterClass(fetchClass[0] ?? null);
+            }else{
+                setRace(null);
+                setCharacterClass(null);
             }
         })();
-    }, []);
+    }, [id]);
     function changeCharacterHP(value){
         setCharacter((prev) => {
             const next = {...prev, hp: value};
@@ -47,13 +54,36 @@ const CharacterSheet = () => {
             return next;
         });
     };
+    function rollDice(numberOfDice, diceSides){
+        let diceRolled = 0;
+        for (let i = 0; i < numberOfDice; i++) {
+            let dice = Math.floor(Math.random() * diceSides) + 1;
+            diceRolled += dice;
+        }
+        return diceRolled;
+    }
+    function longRest(){
+        let rolledHP = rollDice(6, 6);
+        let currentHP = character?.hp ?? 0;
+        let newHP = currentHP + rolledHP;
+        let maxHP = character?.maxHp ?? 0;
+        console.log("Rolled HP: " + rolledHP);
+        let checkedHP = newHP > maxHP? maxHP : newHP;
+        let resetClassPoints = character?.maxClassPoints ?? 0;
+        setCharacter((prev) => {
+            const next = {...prev, classPoints: resetClassPoints, hp: checkedHP, deathS1: 0, deathS2: 0, deathS3: 0, deathF1: 0, deathF2: 0, deathF3: 0};
+            UpdateCharacter(next);
+            return next;
+        });
+    }
     return (
         <div>
             <div className="characterSheetMain">
                 <div className="characterSheetName">{character?.name ?? 0}</div>
                 <div className="characterSheetHeader">
+                    <img className = "headerFolderTab" src={folderTab} alt="FolderTab"></img>
                     <img className = "headerCharacterSelectionButton" src={characterSelection} alt="CharacterSelection" onClick={() => window.location = '/characterSelection'}></img>
-                    <img className = "headerLongRestButton" src={longRestButton} alt="LongRestButton" onClick={() => alert("Long Rest Taken!")}></img>
+                    <img className = "headerLongRestButton" src={longRestButton} alt="LongRestButton" onClick={() => longRest()}></img>
                 </div>
                 <div className="characterSheetPage">
                     <div className="characterSheetPhone">
@@ -79,7 +109,7 @@ const CharacterSheet = () => {
                                 </div>
                                 <div className = "row">
                                     <div className="interactiveCounterBox">
-                                        <h3>Current Class Points</h3>
+                                        <h3>{characterClass?.classPointName ?? "Class Points"}</h3>
                                         <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints - 1)}>
                                                 -
                                         </button>
