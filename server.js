@@ -59,6 +59,14 @@ await db.exec(`
     FOREIGN KEY (raceid) REFERENCES race(id),
     FOREIGN KEY (classid) REFERENCES class(id)
   );
+
+  CREATE TABLE IF NOT EXISTS band (
+    id INTEGER PRIMARY KEY,
+    bandLevel INTEGER DEFAULT 1 NOT NULL,
+    fakeUnix INTEGER NOT NULL,
+    running INTEGER NOT NULL DEFAULT 0,
+    startedAtUnix INTEGER
+  );
 `);
 
 const server = app.listen(3001, () => {
@@ -66,15 +74,55 @@ const server = app.listen(3001, () => {
 });
 
 const wss = new WebSocketServer({ server });
-const wsClients = new Set();
+const clients = new Set();
 
 wss.on("connection", (ws) => {
-  clients.add(ws);
-  ws.on("close", () => clients.delete(ws));
+  console.log("WebSocket client connected");
 
-  // send current data immediately to new client
-  broadcastItems();
+  clients.add(ws);
+
+  ws.on("close", () => {
+    console.log("WebSocket client disconnected");
+    clients.delete(ws);
+  });
+
+  sendFakeTimeToClient(ws).catch((error) => {
+    console.error("Could not send fake time:", error);
+  });
 });
+
+// ------ Band Timer Items ------ //
+
+function toBand(bandRow){
+    return {
+      id: bandRow.id,
+      bandLevel: bandRow.bandLevel,
+      fakeUnix: bandRow.fakeUnix,
+      running: bandRow.running,
+      startedAtUnix: bandRow.startedAtUnix
+    };
+}
+
+async function getBand() {
+  const rows = await db.all("SELECT * FROM band WHERE id = 1;");
+  return rows.map(toBand);
+}
+
+async function sendFakeTimeToClient(ws){
+  const band = await getBand();
+  const now = new Date();
+
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({
+      now: now,
+      ...band
+    }));
+  }
+
+}
+
+
+// ------ Character Items ------ //
 
 function toCharacter(characterRow){
     return {
@@ -117,7 +165,7 @@ async function broadcastCharacters() {
   const characters = await getCharacters();
   const payload = JSON.stringify({ type: "characters_updated", characters });
 
-  for (const ws of wsClients) {
+  for (const ws of clients) {
     if (ws.readyState === ws.OPEN) ws.send(payload);
   }
 }

@@ -1,8 +1,9 @@
 import {getMoonPhase} from 'moon-phase-illuminated';
 
-var FullDate = new Date('2005-04-01 8:00:00');
+//var FullDate = new Date('2005-04-01 8:00:00');
 
-export function getFakeDate(){
+export function getFakeDate(integerDate){
+  var FullDate = new Date(integerDate * 1000);
   var date = FullDate.getDate();
   var day = FullDate.getDay();
   var month = FullDate.getMonth();
@@ -17,16 +18,18 @@ function padTime(time){
   return pad + time;
 }
 
-export function getFakeTime(){
-  var miltaryTime = FullDate.getHours();
+export function getFakeTime(integerDate){
+  var FullDate = new Date(integerDate * 1000);
+  var miltaryTime = FullDate.getUTCHours();
   var hour = miltaryTime > 12? Number(miltaryTime - 12) : miltaryTime;
-  var minute = FullDate.getMinutes();
+  var minute = FullDate.getUTCMinutes();
   var amOrPm = Math.floor(miltaryTime / 12) === 0? 'AM': 'PM';
   return hour + ":" + padTime(minute) + " " + amOrPm;
 }
 
-export function getMoonAndSun(){
-  if(FullDate.getHours() >= 18 || FullDate.getHours() < 6){
+export function getMoonAndSun(integerDate){
+  var FullDate = new Date(integerDate * 1000);
+  if(FullDate.getUTCHours() >= 18 || FullDate.getUTCHours() < 6){
     const moonPhase = getMoonPhase(FullDate);
     return moonPhase.name;
   }else{
