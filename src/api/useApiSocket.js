@@ -1,5 +1,39 @@
 const apiUrl = "http://localhost:3001";
 
+export async function StartClock() {
+  try {
+    const response = await fetch(apiUrl + `/api/fake-clock/start`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+  });
+
+  if (!response.ok) {
+    const txt = await response.text();
+    alert(`Save failed: ${txt}`);
+    return;
+  }
+  }catch (err) {
+    alert(`Network error: ${String(err)}`);
+  }
+}
+
+export async function StopClock() {
+  try {
+    const response = await fetch(apiUrl + `/api/fake-clock/stop`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+  });
+
+  if (!response.ok) {
+    const txt = await response.text();
+    alert(`Save failed: ${txt}`);
+    return;
+  }
+  }catch (err) {
+    alert(`Network error: ${String(err)}`);
+  }
+}
+
 export const getCharacters = async () => {
   try {
     const response = await fetch(apiUrl + `/api/getAllCharacters`, {

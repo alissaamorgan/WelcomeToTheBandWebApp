@@ -96,11 +96,23 @@ body{
     cursor: pointer;
 }
 
+.characterSheetPhone{
+    position: relative;
+}
+
 .phone{
     height: 80%;
     max-height: 820px;
     min-width: 300px;
     padding: 15px;
+}
+
+.characterSheetPhoneDate{
+    display: grid;
+    justify-items: center;
+    position: absolute;
+    top: 120px;
+    left: 17vh;
 }
 
 .characterSheetSheet{

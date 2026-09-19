@@ -10,9 +10,11 @@ import DynamicDebuffsTable from './dynamicTable.js'
 import folder from '../assets/Folder.png'
 import folderTab from '../assets/FolderTab.png'
 import {getCharacterById, UpdateCharacter, getRaceById, getClassById} from "../api/useApiSocket.js";
+import {getFakeTime, getFakeDate, getMoonAndSun} from './timer.js'
 
 const CharacterSheet = () => {
     const { id } = useParams();
+    const[band, setBand] = useState(null);
     const [character, setCharacter] = useState(null);
     const [race, setRace] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
@@ -31,6 +33,47 @@ const CharacterSheet = () => {
             }
         })();
     }, [id]);
+        useEffect(() => {
+        console.log("Character Sheet mounted");
+    
+        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+            const wsUrl = `${protocol}//${window.location.hostname}:3001`;
+            const ws = new WebSocket(wsUrl);
+    
+        ws.onopen = () => {
+            console.log("WebSocket connected");
+        };
+    
+        ws.onmessage = (event) => {
+            console.log("WebSocket message received:", event.data);
+    
+            try{
+                const data = JSON.parse(event.data);
+                const fetchBand = data[0] ?? null;
+                setBand(fetchBand);
+            }catch (error){
+                console.error("Could not parse band:", error);
+            }
+        };
+    
+        ws.onerror = (event) => {
+            console.error("WebSocket error:", event);
+        };
+    
+        ws.onclose = (event) => {
+            console.log(
+            "WebSocket closed:",
+            "code =", event.code,
+            "reason =", event.reason,
+            "clean =", event.wasClean
+            );
+        };
+    
+        return () => {
+            console.log("Closing WebSocket");
+            ws.close();
+        };
+        }, []);
     function changeCharacterHP(value){
         setCharacter((prev) => {
             const next = {...prev, hp: value};
@@ -88,6 +131,11 @@ const CharacterSheet = () => {
                 <div className="characterSheetPage">
                     <div className="characterSheetPhone">
                         <img className = "phone" src={phone} alt="Phone"></img>
+                        <div className="characterSheetPhoneDate">
+                            {getFakeDate(band?.fakeUnix ?? 0)}
+                            <h1>{getFakeTime(band?.fakeUnix ?? 0)}</h1>
+                            {getMoonAndSun(band?.fakeUnix ?? 0)}
+                        </div>
                     </div>
                     <div className="characterSheetSheet">
                         <div className="characterSheetModStats, table">

@@ -108,6 +108,14 @@ async function getBand() {
   return rows.map(toBand);
 }
 
+const FAKE_SECONDS_PER_REAL_SECOND = 5;
+
+let fakeTimeInterval = null;
+
+function getNowUnix() {
+  return Math.floor(Date.now() / 1000);
+}
+
 async function sendFakeTimeToClient(ws){
   const band = await getBand();
   const now = new Date();
@@ -118,9 +126,92 @@ async function sendFakeTimeToClient(ws){
       ...band
     }));
   }
-
 }
 
+async function broadcastFakeTime(status){
+  const band = await getBand();
+
+  for (const ws of clients) {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({
+        status: status,
+        ...band
+      }));
+    }else if (ws.readyState === WebSocket.CLOSED) {
+        clients.delete(ws);
+    }
+  }
+}
+
+function startFakeTimeBroadcast() {
+  // Prevent multiple intervals if the start endpoint is called twice.
+  if (fakeTimeInterval !== null) {
+    return;
+  }
+
+  // Broadcast immediately instead of waiting one second.
+  broadcastFakeTime("Fake Time Started").catch(console.error);
+
+  fakeTimeInterval = setInterval(() => {
+    broadcastFakeTime("Fake Time Tick").catch((error) => {
+      console.error("Could not broadcast fake time:", error);
+    });
+  }, 1000);
+}
+
+function stopFakeTimeBroadcast() {
+  if (fakeTimeInterval !== null) {
+    clearInterval(fakeTimeInterval);
+    fakeTimeInterval = null;
+  }
+}
+
+
+app.post("/api/fake-clock/start", async (req, res) => {
+  try {
+    const now = getNowUnix();
+
+    await db.run(
+      `
+      UPDATE band
+      SET
+        running = ?,
+        startedAtUnix = ?
+      WHERE id = 1;
+      `,
+      [1, now]
+    );
+
+    startFakeTimeBroadcast();
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.post("/api/fake-clock/stop", async (req, res) => {
+  try {
+    await db.run(
+      `
+      UPDATE band
+      SET running = ?
+      WHERE id = 1;
+      `,
+      [0]
+    );
+
+    stopFakeTimeBroadcast();
+
+    await broadcastFakeTime("Fake Time Stopped");
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
 
 // ------ Character Items ------ //
 
