@@ -141,12 +141,11 @@ const CharacterSheet = () => {
                         </div>
                     </div>
                     <div className="characterSheetSheet">
-                        <div className="characterSheetModStats, table">
-                            <div className="characterSheetAutopsy">
-                                    <img className = "toppc" src={papercorner} alt="toppcc "></img>
+                        <div className="characterSheetModStats, table" >
+                            <div className="characterSheetAutopsy" >
+                                    <img className = "toppc" src={papercorner} alt="Autposy" ></img>
                                     <img className = "btmpc" src={papercorner} alt="btmpc"></img>
                                     <img className = "autopsyImage" src={autopsy} alt="Autposy"></img>
-                                    
                             </div>
                             <div className="characterSheetInteractive">
                                 <div className = "row">
