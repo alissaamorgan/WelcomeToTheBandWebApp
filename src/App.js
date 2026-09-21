@@ -1,6 +1,4 @@
 // filename -App.js
-
-import React from "react";
 import "./App.css";
 //import Navbar from "./components/Navbar";
 import {
@@ -12,8 +10,6 @@ import Home from "./pages/home.js";
 import CharacterCreation from "./pages/characterCreation.js";
 import CharacterSelection from "./pages/characterSelection.js";
 import CharacterSheet from "./pages/characterSheet.js";
-import Blogs from "./pages/dmScreen.js";
-import SignUp from "./pages/signup.js";
 import DmScreen from "./pages/dmScreen.js";
 
 function App() {
@@ -27,7 +23,6 @@ function App() {
                 <Route path="/characterSelection" element={<CharacterSelection />} />
                 <Route path="/characterSheet/:id" element={<CharacterSheet />} />
                 <Route path="/dmScreen" element={<DmScreen />} />
-                <Route path="/sign-up" element={<SignUp />} />
             </Routes>
         </Router>
     );

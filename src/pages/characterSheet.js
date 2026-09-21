@@ -6,15 +6,17 @@ import longRestButton from '../assets/LongRestButton.png'
 import phone from '../assets/Phone.png'
 import exampleSheet from '../assets/ExampleSheet.png'
 import autopsy from '../assets/Autopsy.png'
+import papercorner from '../assets/Embeleshmets/Papercorner.png'
+import paperclip from '../assets/Embeleshmets/Paperclip.png'
+import tape from '../assets/Embeleshmets/Tape.png'
 import DynamicDebuffsTable from './dynamicTable.js'
-import folder from '../assets/Folder.png'
 import folderTab from '../assets/FolderTab.png'
 import {getCharacterById, UpdateCharacter, getRaceById, getClassById} from "../api/useApiSocket.js";
-import {getFakeTime, getFakeDate, getMoonAndSun} from './timer.js'
+import {getFakeTime, getFakeDate, getMoonandSunImage} from './timer.js'
 
 const CharacterSheet = () => {
     const { id } = useParams();
-    const[band, setBand] = useState(null);
+    const[timerBroadcast, settimerBroadcast] = useState(null);
     const [character, setCharacter] = useState(null);
     const [race, setRace] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
@@ -49,10 +51,9 @@ const CharacterSheet = () => {
     
             try{
                 const data = JSON.parse(event.data);
-                const fetchBand = data[0] ?? null;
-                setBand(fetchBand);
+                settimerBroadcast(data);
             }catch (error){
-                console.error("Could not parse band:", error);
+                console.error("Could not parse timerBroadcast:", error);
             }
         };
     
@@ -132,14 +133,18 @@ const CharacterSheet = () => {
                     <div className="characterSheetPhone">
                         <img className = "phone" src={phone} alt="Phone"></img>
                         <div className="characterSheetPhoneDate">
-                            {getFakeDate(band?.fakeUnix ?? 0)}
-                            <h1>{getFakeTime(band?.fakeUnix ?? 0)}</h1>
-                            {getMoonAndSun(band?.fakeUnix ?? 0)}
+                            {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
+                            <h1 className="PhoneTime">
+                                <img className = "sunAndMoon" alt="sunAndMoon" src={getMoonandSunImage(timerBroadcast?.fakeUnix ?? 0)}></img>
+                                {getFakeTime(timerBroadcast?.fakeUnix ?? 0)}
+                            </h1>
                         </div>
                     </div>
                     <div className="characterSheetSheet">
-                        <div className="characterSheetModStats, table">
-                            <div className="characterSheetAutopsy">
+                        <div className="characterSheetModStats, table" >
+                            <div className="characterSheetAutopsy" >
+                                    <img className = "toppc" src={papercorner} alt="Autposy" ></img>
+                                    <img className = "btmpc" src={papercorner} alt="btmpc"></img>
                                     <img className = "autopsyImage" src={autopsy} alt="Autposy"></img>
                             </div>
                             <div className="characterSheetInteractive">

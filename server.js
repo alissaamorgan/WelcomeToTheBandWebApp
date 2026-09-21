@@ -86,57 +86,79 @@ wss.on("connection", (ws) => {
     clients.delete(ws);
   });
 
-  sendFakeTimeToClient(ws).catch((error) => {
-    console.error("Could not send fake time:", error);
-  });
+  sendFakeTimeToClient(ws);
 });
 
 // ------ Band Timer Items ------ //
-
-function toBand(bandRow){
-    return {
-      id: bandRow.id,
-      bandLevel: bandRow.bandLevel,
-      fakeUnix: bandRow.fakeUnix,
-      running: bandRow.running,
-      startedAtUnix: bandRow.startedAtUnix
-    };
-}
-
-async function getBand() {
-  const rows = await db.all("SELECT * FROM band WHERE id = 1;");
-  return rows.map(toBand);
-}
-
 const FAKE_SECONDS_PER_REAL_SECOND = 5;
+const BROADCAST_INTERVAL_IN_REAL_MS =  1000;
+const DATABASE_SAVE_INTERVAL_IN_REAL_MS  = 15000 // save every 15 seconds
 
-let fakeTimeInterval = null;
+let broadcastFakeTimer = null;
+let databaseSaveTimer = null;
 
 function getNowUnix() {
   return Math.floor(Date.now() / 1000);
+}
+
+function getCurrentFakeUnix(band){ // quick calc to prevent db write all the time
+  const realNowUnix = getNowUnix();
+  const realElapsedSeconds = realNowUnix - band.startedAtUnix;
+  return band.fakeUnix + realElapsedSeconds * FAKE_SECONDS_PER_REAL_SECOND;
+}
+
+async function getBand() {
+  return await db.get("SELECT * FROM band WHERE id = 1;");
+}
+
+async function saveCurrentFakeTime(){
+  const band = await getBand();
+  const fakeNowUnix = getCurrentFakeUnix(band);
+  const realNowUnix = getNowUnix();
+  
+  await db.run(
+      `
+      UPDATE band
+      SET
+        fakeUnix = ?,
+        startedAtUnix = ?
+      WHERE id = 1;
+      `,
+      [fakeNowUnix, realNowUnix]
+    );
+
 }
 
 async function sendFakeTimeToClient(ws){
   const band = await getBand();
   const now = new Date();
 
+  const message = JSON.stringify({
+    type: "first fake-time-broadcast",
+    now: now,
+    running: band.running,
+    fakeUnix: band.fakeUnix
+  })
+
   if (ws.readyState === WebSocket.OPEN) {
-    ws.send(JSON.stringify({
-      now: now,
-      ...band
-    }));
+    ws.send(message);
   }
 }
 
 async function broadcastFakeTime(status){
   const band = await getBand();
+  const fakeNowUnix = getCurrentFakeUnix(band);
+
+  const message = JSON.stringify({
+    type: "fake-time-broadcast",
+    status: status,
+    running: band.running,
+    fakeUnix: fakeNowUnix
+  })
 
   for (const ws of clients) {
     if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({
-        status: status,
-        ...band
-      }));
+      ws.send(message);
     }else if (ws.readyState === WebSocket.CLOSED) {
         clients.delete(ws);
     }
@@ -145,25 +167,38 @@ async function broadcastFakeTime(status){
 
 function startFakeTimeBroadcast() {
   // Prevent multiple intervals if the start endpoint is called twice.
-  if (fakeTimeInterval !== null) {
+  if (broadcastFakeTimer !== null) {
     return;
   }
 
   // Broadcast immediately instead of waiting one second.
   broadcastFakeTime("Fake Time Started").catch(console.error);
 
-  fakeTimeInterval = setInterval(() => {
-    broadcastFakeTime("Fake Time Tick").catch((error) => {
+  broadcastFakeTimer = setInterval(() => {
+    broadcastFakeTime("Fake Time Update").catch((error) => {
       console.error("Could not broadcast fake time:", error);
     });
-  }, 1000);
+  }, BROADCAST_INTERVAL_IN_REAL_MS);
+
+  databaseSaveTimer = setInterval(() => {
+    saveCurrentFakeTime().catch((error) => {
+      console.error("Could not save fake time:", error);
+    });
+  }, DATABASE_SAVE_INTERVAL_IN_REAL_MS);
 }
 
-function stopFakeTimeBroadcast() {
-  if (fakeTimeInterval !== null) {
-    clearInterval(fakeTimeInterval);
-    fakeTimeInterval = null;
+async function stopFakeTimeBroadcast() {
+  if (broadcastFakeTimer !== null) {
+    clearInterval(broadcastFakeTimer);
+    broadcastFakeTimer = null;
   }
+
+  if (databaseSaveTimer !== null) {
+    clearInterval(databaseSaveTimer);
+    databaseSaveTimer = null;
+  }
+
+  await saveCurrentFakeTime()
 }
 
 
@@ -184,7 +219,6 @@ app.post("/api/fake-clock/start", async (req, res) => {
 
     startFakeTimeBroadcast();
 
-    res.sendStatus(204);
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
@@ -202,11 +236,10 @@ app.post("/api/fake-clock/stop", async (req, res) => {
       [0]
     );
 
-    stopFakeTimeBroadcast();
+    await stopFakeTimeBroadcast();
 
     await broadcastFakeTime("Fake Time Stopped");
 
-    res.sendStatus(204);
   } catch (error) {
     console.error(error);
     res.sendStatus(500);

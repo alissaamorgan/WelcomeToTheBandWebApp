@@ -1,10 +1,10 @@
 import { useEffect, useState, React } from "react";
 import './pages.css';
-import {getFakeTime, getFakeDate, getMoonAndSun} from './timer.js'
+import {getFakeTimeWithSeconds, getFakeDate, getMoonandSunImage} from './timer.js'
 import {StartClock, StopClock} from "../api/useApiSocket.js";
 
 const DmScreen = () => {
-    const[band, setBand] = useState(null);
+    const[timerBroadcast, settimerBroadcast] = useState(null);
     useEffect(() => {
     console.log("DmScreen mounted");
 
@@ -21,10 +21,9 @@ const DmScreen = () => {
 
         try{
             const data = JSON.parse(event.data);
-            const fetchBand = data[0] ?? null;
-            setBand(fetchBand);
+            settimerBroadcast(data);
         }catch (error){
-            console.error("Could not parse band:", error);
+            console.error("Could not parse timerBroadcast:", error);
         }
     };
 
@@ -49,9 +48,11 @@ const DmScreen = () => {
 
     return (
         <div>
-            Date = {getFakeDate(band?.fakeUnix ?? 0)}
-            <h1>Time = {getFakeTime(band?.fakeUnix ?? 0)}</h1>
-            Moon = {getMoonAndSun(band?.fakeUnix ?? 0)}
+            {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
+            <h1 className="PhoneTime">
+                <img className = "sunAndMoon" alt="sunAndMoon" src={getMoonandSunImage(timerBroadcast?.fakeUnix ?? 0)}></img>
+                {getFakeTimeWithSeconds(timerBroadcast?.fakeUnix ?? 0)}
+            </h1>
             <button onClick={() => StartClock()}> start </button>
             <button onClick={() => StopClock()}> stop </button>
         </div>
