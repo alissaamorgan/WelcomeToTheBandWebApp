@@ -112,7 +112,17 @@ body{
     justify-items: center;
     position: absolute;
     top: 120px;
-    left: 17vh;
+    left: 14vh;
+}
+
+.PhoneTime{
+    display: flex;
+    align-items: center;
+}
+
+.sunAndMoon{
+    width: 60px;
+    padding-right: 15px;
 }
 
 .characterSheetSheet{

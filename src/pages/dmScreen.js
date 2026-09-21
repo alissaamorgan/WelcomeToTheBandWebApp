@@ -1,6 +1,6 @@
 import { useEffect, useState, React } from "react";
 import './pages.css';
-import {getFakeTime, getFakeTimeWithSeconds, getFakeDate, getMoonAndSun} from './timer.js'
+import {getFakeTimeWithSeconds, getFakeDate, getMoonandSunImage} from './timer.js'
 import {StartClock, StopClock} from "../api/useApiSocket.js";
 
 const DmScreen = () => {
@@ -48,9 +48,11 @@ const DmScreen = () => {
 
     return (
         <div>
-            Date = {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
-            <h1>Time = {getFakeTimeWithSeconds(timerBroadcast?.fakeUnix ?? 0)}</h1>
-            Moon = {getMoonAndSun(timerBroadcast?.fakeUnix ?? 0)}
+            {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
+            <h1 className="PhoneTime">
+                <img className = "sunAndMoon" alt="sunAndMoon" src={getMoonandSunImage(timerBroadcast?.fakeUnix ?? 0)}></img>
+                {getFakeTimeWithSeconds(timerBroadcast?.fakeUnix ?? 0)}
+            </h1>
             <button onClick={() => StartClock()}> start </button>
             <button onClick={() => StopClock()}> stop </button>
         </div>

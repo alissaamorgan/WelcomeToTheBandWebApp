@@ -10,10 +10,9 @@ import papercorner from '../assets/Embeleshmets/Papercorner.png'
 import paperclip from '../assets/Embeleshmets/Paperclip.png'
 import tape from '../assets/Embeleshmets/Tape.png'
 import DynamicDebuffsTable from './dynamicTable.js'
-import folder from '../assets/Folder.png'
 import folderTab from '../assets/FolderTab.png'
 import {getCharacterById, UpdateCharacter, getRaceById, getClassById} from "../api/useApiSocket.js";
-import {getFakeTime, getFakeDate, getMoonAndSun} from './timer.js'
+import {getFakeTime, getFakeDate, getMoonandSunImage} from './timer.js'
 
 const CharacterSheet = () => {
     const { id } = useParams();
@@ -135,8 +134,10 @@ const CharacterSheet = () => {
                         <img className = "phone" src={phone} alt="Phone"></img>
                         <div className="characterSheetPhoneDate">
                             {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
-                            <h1>{getFakeTime(timerBroadcast?.fakeUnix ?? 0)}</h1>
-                            {getMoonAndSun(timerBroadcast?.fakeUnix ?? 0)}
+                            <h1 className="PhoneTime">
+                                <img className = "sunAndMoon" alt="sunAndMoon" src={getMoonandSunImage(timerBroadcast?.fakeUnix ?? 0)}></img>
+                                {getFakeTime(timerBroadcast?.fakeUnix ?? 0)}
+                            </h1>
                         </div>
                     </div>
                     <div className="characterSheetSheet">
