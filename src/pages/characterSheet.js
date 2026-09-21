@@ -6,6 +6,9 @@ import longRestButton from '../assets/LongRestButton.png'
 import phone from '../assets/Phone.png'
 import exampleSheet from '../assets/ExampleSheet.png'
 import autopsy from '../assets/Autopsy.png'
+import papercorner from '../assets/Embeleshmets/Papercorner.png'
+import paperclip from '../assets/Embeleshmets/Paperclip.png'
+import tape from '../assets/Embeleshmets/Tape.png'
 import DynamicDebuffsTable from './dynamicTable.js'
 import folder from '../assets/Folder.png'
 import folderTab from '../assets/FolderTab.png'
@@ -140,7 +143,10 @@ const CharacterSheet = () => {
                     <div className="characterSheetSheet">
                         <div className="characterSheetModStats, table">
                             <div className="characterSheetAutopsy">
+                                    <img className = "toppc" src={papercorner} alt="toppcc "></img>
+                                    <img className = "btmpc" src={papercorner} alt="btmpc"></img>
                                     <img className = "autopsyImage" src={autopsy} alt="Autposy"></img>
+                                    
                             </div>
                             <div className="characterSheetInteractive">
                                 <div className = "row">
