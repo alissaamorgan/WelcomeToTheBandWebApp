@@ -27,6 +27,16 @@ export function getFakeTime(integerDate){
   return hour + ":" + padTime(minute) + " " + amOrPm;
 }
 
+export function getFakeTimeWithSeconds(integerDate){
+  var FullDate = new Date(integerDate * 1000);
+  var miltaryTime = FullDate.getUTCHours();
+  var hour = miltaryTime > 12? Number(miltaryTime - 12) : miltaryTime;
+  var minute = FullDate.getUTCMinutes();
+  var seconds = FullDate.getUTCSeconds();
+  var amOrPm = Math.floor(miltaryTime / 12) === 0? 'AM': 'PM';
+  return hour + ":" + padTime(minute) +  ":" + padTime(seconds) + " " + amOrPm;
+}
+
 export function getMoonAndSun(integerDate){
   var FullDate = new Date(integerDate * 1000);
   if(FullDate.getUTCHours() >= 18 || FullDate.getUTCHours() < 6){

@@ -14,7 +14,7 @@ import {getFakeTime, getFakeDate, getMoonAndSun} from './timer.js'
 
 const CharacterSheet = () => {
     const { id } = useParams();
-    const[band, setBand] = useState(null);
+    const[timerBroadcast, settimerBroadcast] = useState(null);
     const [character, setCharacter] = useState(null);
     const [race, setRace] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
@@ -49,10 +49,9 @@ const CharacterSheet = () => {
     
             try{
                 const data = JSON.parse(event.data);
-                const fetchBand = data[0] ?? null;
-                setBand(fetchBand);
+                settimerBroadcast(data);
             }catch (error){
-                console.error("Could not parse band:", error);
+                console.error("Could not parse timerBroadcast:", error);
             }
         };
     
@@ -132,9 +131,9 @@ const CharacterSheet = () => {
                     <div className="characterSheetPhone">
                         <img className = "phone" src={phone} alt="Phone"></img>
                         <div className="characterSheetPhoneDate">
-                            {getFakeDate(band?.fakeUnix ?? 0)}
-                            <h1>{getFakeTime(band?.fakeUnix ?? 0)}</h1>
-                            {getMoonAndSun(band?.fakeUnix ?? 0)}
+                            {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
+                            <h1>{getFakeTime(timerBroadcast?.fakeUnix ?? 0)}</h1>
+                            {getMoonAndSun(timerBroadcast?.fakeUnix ?? 0)}
                         </div>
                     </div>
                     <div className="characterSheetSheet">
