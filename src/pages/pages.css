@@ -144,6 +144,7 @@ body{
     align-content: center;
     justify-content: center;
     width: fit-content;
+    position: relative;
 }
 
 .autopsyImage{
@@ -152,6 +153,21 @@ body{
     border: solid;
     border-color: black;
     border-radius: 2px;
+}
+
+.toppc{
+    position: absolute;
+    right: 65%;
+    top: -2%;
+    z-index: 100; 
+}
+
+.btmpc{
+    position: absolute;
+    left: 65%;
+    top: 81%;
+    z-index: 100; 
+    transform: rotate(180deg);
 }
 
 .characterSheetInteractive{
