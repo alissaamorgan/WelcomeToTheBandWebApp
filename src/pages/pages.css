@@ -179,6 +179,13 @@ body{
     justify-self: center;
     text-align: center;
     height: 40%;
+    position: relative;
+}
+
+.tape{
+    position: absolute;
+    z-index: 10000;
+    right:48%
 }
 
 .interactiveCounterBox{

@@ -149,6 +149,7 @@ const CharacterSheet = () => {
                             </div>
                             <div className="characterSheetInteractive">
                                 <div className = "row">
+                                    <img className = "tape" src={tape} alt="Tape"></img>
                                     <div className="interactiveCounterBox">
                                         <h3>Current Hit Points</h3>
                                         <button type="button" className="hpCounterDown, counter" onClick={() => changeCharacterHP(character.hp - 1)}>
@@ -161,6 +162,7 @@ const CharacterSheet = () => {
                                     </div>
                                 </div>
                                 <div className = "row">
+                                    <img className = "tape" src={tape} alt="Tape"></img>
                                     <div className="interactiveCounterBox">
                                         <h3>{characterClass?.classPointName ?? "Class Points"}</h3>
                                         <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints - 1)}>
@@ -173,6 +175,7 @@ const CharacterSheet = () => {
                                     </div>
                                 </div>
                                 <div className = "row">
+                                    <img className = "tape" src={tape} alt="Tape"></img>
                                     <div className="interactiveCounterBox">
                                         <table>
                                             <thead>
