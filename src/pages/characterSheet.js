@@ -1,19 +1,21 @@
 import { useEffect, useState, React } from "react";
 import { useParams } from "react-router-dom";
 import './pages.css';
-import characterSelection from '../assets/CharacterSelection.png'
-import longRestButton from '../assets/LongRestButton.png'
-import phone from '../assets/Phone.png'
-import phoneTopBar from '../assets/Topbarphone.png'
-import exampleSheet from '../assets/ExampleSheet.png'
-import autopsy from '../assets/Autopsy.png'
-import papercorner from '../assets/Embeleshmets/Papercorner.png'
-import paperclip from '../assets/Embeleshmets/Paperclip.png'
-import tape from '../assets/Embeleshmets/Tape.png'
-import DynamicDebuffsTable from './dynamicTable.js'
-import folderTab from '../assets/FolderTab.png'
+import characterSelection from '../assets/CharacterSelection.png';
+import longRestButton from '../assets/LongRestButton.png';
+import phone from '../assets/Phone.png';
+import phoneTopBar from '../assets/Topbarphone.png';
+import phoneSettings from '../assets/phoneSettings.png';
+import phoneNotification from '../assets/Notification.png';
+import exampleSheet from '../assets/ExampleSheet.png';
+import autopsy from '../assets/Autopsy.png';
+import papercorner from '../assets/Embeleshmets/Papercorner.png';
+import paperclip from '../assets/Embeleshmets/Paperclip.png';
+import tape from '../assets/Embeleshmets/Tape.png';
+import DynamicDebuffsTable from './dynamicTable.js';
+import folderTab from '../assets/FolderTab.png';
 import {getCharacterById, UpdateCharacter, getRaceById, getClassById} from "../api/useApiSocket.js";
-import {getFakeTime, getFakeDate, getMoonandSunImage} from './timer.js'
+import {getFakeTime, getFakeDate, getMoonandSunImage} from './timer.js';
 
 const CharacterSheet = () => {
     const { id } = useParams();
@@ -21,6 +23,7 @@ const CharacterSheet = () => {
     const [character, setCharacter] = useState(null);
     const [race, setRace] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
+    const [notifications, setNotifications] = useState([{id: 1}, {id: 2}, {id: 3}, {id: 4}]);
 
     useEffect(() => { (async () => {
         if(id){
@@ -145,15 +148,27 @@ const CharacterSheet = () => {
                 </div>
                 <div className="characterSheetPage">
                     <div className="characterSheetPhone">
+                        
                         <img className = "phone" src={phone} alt="Phone"></img>
-                        <img className = "phoneTopBar" src={phoneTopBar} alt="PhoneTopBar"></img>
-                        <div className="characterSheetPhoneDate">
-                            {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
-                            <h1 className="PhoneTime">
-                                <img className = "sunAndMoon" alt="sunAndMoon" src={getMoonandSunImage(timerBroadcast?.fakeUnix ?? 0)}></img>
-                                {getFakeTime(timerBroadcast?.fakeUnix ?? 0)}
-                            </h1>
+                        <div className="phoneBackground">
+                            <img className = "phoneSettingsButton" src={phoneSettings} alt="phoneSettings" onClick={() => alert("phoneSettings")}></img>
+                            <img className = "phoneTopBar" src={phoneTopBar} alt="PhoneTopBar"></img>
+                            <div className="characterSheetPhoneDate">
+                                <div className="phoneDate">{getFakeDate(timerBroadcast?.fakeUnix ?? 0)}</div>
+                                <div className="phoneTime">
+                                    <img className = "sunAndMoon" alt="sunAndMoon" src={getMoonandSunImage(timerBroadcast?.fakeUnix ?? 0)}></img>
+                                    {getFakeTime(timerBroadcast?.fakeUnix ?? 0)}
+                                </div>
+                            </div>
+                            <div className="phoneNotificationContainer">
+                                {notifications.map((notification, index) => (
+                                    <div className = "phoneNotification" key={notification.id} style={{ '--i': index }}>
+                                        <img className = "phoneNotificationImage" src={phoneNotification} alt="phoneNotificationImage"></img>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
+                        
                     </div>
                     <div className="characterSheetSheet">
                         <div className="characterSheetModStats, table" >

@@ -108,29 +108,67 @@ body{
     position: relative;
 }
 
-.phoneTopBar{
+.phoneBackground{
     position: absolute;
     left: 65px;
-    top: 63px;
-    width: 347px;
+    top: 110px;
+    width: 349px;
+    height: 570px;
+    background-color: rgb(49, 133, 167);
+    z-index: 1;
+}
+
+.phoneTopBar{
+    position: absolute;
+    width: 349px;
+    top: -50px;
+}
+
+.phoneSettingsButton{
+    position: absolute;
+    height: 19px;
+    top: -1px;
+    right: 0px;
+    z-index: 1;
 }
 
 .characterSheetPhoneDate{
     display: grid;
     justify-items: center;
-    position: absolute;
-    top: 130px;
-    left: 135px;
+    padding-top: 30px;
+    width: 100%;
+    padding-bottom: 20px;
 }
 
-.PhoneTime{
+.phoneDate{
+    font-size: x-large;
+    padding-bottom: 5px;
+}
+
+.phoneTime{
     display: flex;
     align-items: center;
+    font-size: 50px;
+    font-weight: bold;
 }
 
 .sunAndMoon{
     width: 60px;
     padding-right: 15px;
+}
+
+.phoneNotificationContainer{
+    height: 425px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.phoneNotification{
+    padding: 5px;
+}
+
+.phoneNotificationImage{
+    width: 100%;
 }
 
 .characterSheetSheet{
