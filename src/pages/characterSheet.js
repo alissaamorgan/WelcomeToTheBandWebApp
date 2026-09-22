@@ -21,28 +21,28 @@ const CharacterSheet = () => {
     const [race, setRace] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
 
-        useEffect(() => { (async () => {
-            if(id){
-                const fetchCharacter = await getCharacterById(id);
-                console.log(fetchCharacter);
-                setCharacter(fetchCharacter);
-                if(fetchCharacter.raceid){
-                    const fetchRace = await getRaceById(fetchCharacter.raceid);
-                    console.log(fetchRace);
-                    setRace(fetchRace);
-                } else{
-                    console.log("No Race Id Provided");
-                }
-                if(fetchCharacter.classid){
-                    const fetchClass = await getClassById(fetchCharacter.classid);
-                    console.log(fetchClass);
-                    setCharacterClass(fetchClass);
-                } else{
-                    console.log("No Class Id Provided");
-                }
-            }else{
-                console.log("No Character Id Provided");
+    useEffect(() => { (async () => {
+        if(id){
+            const fetchCharacter = await getCharacterById(id);
+            console.log(fetchCharacter);
+            setCharacter(fetchCharacter);
+            if(fetchCharacter.raceid){
+                const fetchRace = await getRaceById(fetchCharacter.raceid);
+                console.log(fetchRace);
+                setRace(fetchRace);
+            } else{
+                console.log("No Race Id Provided");
             }
+            if(fetchCharacter.classid){
+                const fetchClass = await getClassById(fetchCharacter.classid);
+                console.log(fetchClass);
+                setCharacterClass(fetchClass);
+            } else{
+                console.log("No Class Id Provided");
+            }
+        }else{
+            console.log("No Character Id Provided");
+        }
             
         })();
     }, [id]);
