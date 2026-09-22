@@ -14,7 +14,7 @@ import paperclip from '../assets/Embeleshmets/Paperclip.png';
 import tape from '../assets/Embeleshmets/Tape.png';
 import DynamicDebuffsTable from './dynamicTable.js';
 import folderTab from '../assets/FolderTab.png';
-import {getCharacterById, UpdateCharacter, getRaceById, getClassById} from "../api/useApiSocket.js";
+import {getCharacterById, UpdateCharacter, getRaceById, getClassById, getNotificationByCharacterId} from "../api/useApiSocket.js";
 import {getFakeTime, getFakeDate, getMoonandSunImage} from './timer.js';
 
 const CharacterSheet = () => {
@@ -23,7 +23,7 @@ const CharacterSheet = () => {
     const [character, setCharacter] = useState(null);
     const [race, setRace] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
-    const [notifications, setNotifications] = useState([{id: 1}, {id: 2}, {id: 3}, {id: 4}]);
+    const [notifications, setNotifications] = useState([]);
 
     useEffect(() => { (async () => {
         if(id){
@@ -43,6 +43,11 @@ const CharacterSheet = () => {
                 setCharacterClass(fetchClass);
             } else{
                 console.log("No Class Id Provided");
+            }
+            const fetchNotifications = await getNotificationByCharacterId(id);
+            console.log(fetchNotifications);
+            if(!fetchNotifications === null){
+                setNotifications(fetchNotifications);
             }
         }else{
             console.log("No Character Id Provided");

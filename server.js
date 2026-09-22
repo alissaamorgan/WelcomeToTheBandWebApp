@@ -67,6 +67,16 @@ await db.exec(`
     running INTEGER NOT NULL DEFAULT 0,
     startedAtUnix INTEGER
   );
+
+  CREATE TABLE IF NOT EXISTS notification (
+    id INTEGER PRIMARY KEY,
+    characterid INTEGER,
+    app TEXT,
+    title TEXT,
+    message TEXT,
+    isdeleted INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY (characterid) REFERENCES characters(id)
+  );
 `);
 
 const server = app.listen(3001, () => {
@@ -325,6 +335,27 @@ async function getClassById(id) {
   return await db.get("SELECT * FROM class WHERE id = ?", id);
 }
 
+function toNotification(notificationRow){
+    return {
+      id: notificationRow.id,
+      characterid: notificationRow.characterid,
+      app: notificationRow.app,
+      title: notificationRow.title,
+      message: notificationRow.message,
+      isdeleted: notificationRow.isdeleted
+  };
+}
+
+async function getNotifications() {
+  const rows = await db.all("SELECT * FROM notification ORDER BY id;");
+  return rows.map(toNotification);
+}
+
+async function getNotificationsByCharacterId(characterId) {
+  const rows = await db.all("SELECT * FROM notification WHERE characterid = ?", [characterId]);
+  return rows.map(toNotification);
+}
+
 app.get("/api/getAllCharacters", async (_req, res) => {
   res.json(await getCharacters());
 });
@@ -402,4 +433,13 @@ app.get("/api/getAllClasses", async (_req, res) => {
 app.get("/api/getClass/:id", async (req, res) => {
   const id = Number(req.params.id);
   res.json(await getClassById(id));
+});
+
+app.get("/api/getAllNotifications", async (_req, res) => {
+  res.json(await getNotifications());
+});
+
+app.get("/api/getNotificationByCharacterId/:characterid", async (req, res) => {
+  const characterid = Number(req.params.characterid);
+  res.json(await getNotificationsByCharacterId(characterid));
 });

@@ -178,3 +178,38 @@ export async function getClassById(id) {
       return []; // important so callers get an array
     }
 }
+
+export const getNotifications = async () => {
+  try {
+    const response = await fetch(apiUrl + `/api/getAllNotifications`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+      if (!response.ok) {
+        const txt = await response.text();
+        throw new Error(txt);
+      }
+      const classesArray = await response.json();
+      return classesArray;
+    } catch (err) {
+      alert(`Network error: ${String(err)}`);
+      return []; // important so callers get an array
+  }
+};
+
+export async function getNotificationByCharacterId(characterid) {
+    try {
+      const response = await fetch(apiUrl + `/api/getNotificationByCharacterId/${characterid}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        const txt = await response.text();
+        throw new Error(txt);
+      }
+      return await response.json();
+    } catch (err) {
+      alert(`Network error: ${String(err)}`);
+      return []; // important so callers get an array
+    }
+}
