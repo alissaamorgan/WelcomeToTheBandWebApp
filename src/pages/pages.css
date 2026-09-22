@@ -105,14 +105,22 @@ body{
     max-height: 820px;
     min-width: 300px;
     padding: 15px;
+    position: relative;
+}
+
+.phoneTopBar{
+    position: absolute;
+    left: 65px;
+    top: 63px;
+    width: 347px;
 }
 
 .characterSheetPhoneDate{
     display: grid;
     justify-items: center;
     position: absolute;
-    top: 120px;
-    left: 14vh;
+    top: 130px;
+    left: 135px;
 }
 
 .PhoneTime{

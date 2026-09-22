@@ -4,6 +4,7 @@ import './pages.css';
 import characterSelection from '../assets/CharacterSelection.png'
 import longRestButton from '../assets/LongRestButton.png'
 import phone from '../assets/Phone.png'
+import phoneTopBar from '../assets/Topbarphone.png'
 import exampleSheet from '../assets/ExampleSheet.png'
 import autopsy from '../assets/Autopsy.png'
 import papercorner from '../assets/Embeleshmets/Papercorner.png'
@@ -145,6 +146,7 @@ const CharacterSheet = () => {
                 <div className="characterSheetPage">
                     <div className="characterSheetPhone">
                         <img className = "phone" src={phone} alt="Phone"></img>
+                        <img className = "phoneTopBar" src={phoneTopBar} alt="PhoneTopBar"></img>
                         <div className="characterSheetPhoneDate">
                             {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
                             <h1 className="PhoneTime">
