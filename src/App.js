@@ -1,6 +1,5 @@
 // filename -App.js
 import "./App.css";
-//import Navbar from "./components/Navbar";
 import {
     BrowserRouter as Router,
     Routes,
@@ -15,7 +14,6 @@ import DmScreen from "./pages/dmScreen.js";
 function App() {
     return (
         <Router>
-            {/*<Navbar /> */}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />

@@ -134,7 +134,7 @@ async function sendFakeTimeToClient(ws){
   const now = new Date();
 
   const message = JSON.stringify({
-    type: "first fake-time-broadcast",
+    type: "fake-time-broadcast",
     now: now,
     running: band.running,
     fakeUnix: band.fakeUnix
@@ -281,17 +281,7 @@ async function getCharacters() {
 }
 
 async function getCharacterById(id) {
-  const rows = await db.all("SELECT * FROM characters WHERE id = ?", id);
-  return rows.map(toCharacter);
-}
-
-async function broadcastCharacters() {
-  const characters = await getCharacters();
-  const payload = JSON.stringify({ type: "characters_updated", characters });
-
-  for (const ws of clients) {
-    if (ws.readyState === ws.OPEN) ws.send(payload);
-  }
+  return await db.get("SELECT * FROM characters WHERE id = ?", id);
 }
 
 function toRace(raceRow){
@@ -314,8 +304,7 @@ async function getRaces() {
 }
 
 async function getRaceById(id) {
-  const rows = await db.all("SELECT * FROM race WHERE id = ?", id);
-  return rows.map(toRace);
+  return await db.get("SELECT * FROM race WHERE id = ?", id);
 }
 
 function toClass(classRow){
@@ -333,8 +322,7 @@ async function getClasses() {
 }
 
 async function getClassById(id) {
-  const rows = await db.all("SELECT * FROM class WHERE id = ?", id);
-  return rows.map(toClass);
+  return await db.get("SELECT * FROM class WHERE id = ?", id);
 }
 
 app.get("/api/getAllCharacters", async (_req, res) => {
@@ -369,9 +357,7 @@ app.post("/api/createOrUpdateCharacter/:id", async (req, res) => {
     `,
     [id, name, hp, maxHp, tempHp, classPoints, maxClassPoints, raceid, classid]
   );
-
-  await broadcastCharacters?.();
-  res.json({ ok: true });
+  res.json(await getCharacterById(id));
 });
 
 app.post("/api/UpdateCharacter", async (req, res) => {
@@ -397,9 +383,7 @@ app.post("/api/UpdateCharacter", async (req, res) => {
     `,
     [id, name, hp, maxHp, tempHp, classPoints, maxClassPoints, deathS1, deathS2, deathS3, deathF1, deathF2, deathF3]
   );
-
-  await broadcastCharacters?.();
-  res.json({ ok: true });
+  res.json(await getCharacterById(id));
 });
 
 app.get("/api/getAllRaces", async (_req, res) => {
