@@ -1,21 +1,131 @@
-MIT License
+Educational Non-Commercial Software License
 
 Copyright (c) 2026 Alissa Morgan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, and share the Software solely for free, non-commercial
+educational, teaching, learning, and research purposes, subject to the
+following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Permitted Use
+
+You may:
+
+  a. Install and use the Software for free, non-commercial educational,
+     teaching, learning, or research activities;
+
+  b. Make and share copies of the Software with classmates, students,
+     instructors, educational institutions, and other individuals, provided
+     that the copies are shared free of charge and remain subject to this
+     license;
+
+  c. Demonstrate, execute, and display the Software in classrooms, lectures,
+     workshops, laboratories, and other educational settings;
+
+  d. Modify, adapt, translate, or create derivative works based on the
+     Software for personal, educational, or other non-commercial purposes;
+
+  e. Share modified versions of the Software free of charge, provided that
+     the modified versions remain subject to this license; and
+
+  f. Link to or refer others to the official distribution location of the
+     Software.
+
+2. Restrictions
+
+You may not, without prior written permission from the copyright holder:
+
+  a. Sell, rent, lease, license for payment, sublicense for payment, or
+     otherwise commercially distribute the Software or any modified version
+     of it;
+
+  b. Charge a fee for access to, download of, or use of the Software or any
+     modified version of it;
+
+  c. Place the Software or any modified version of it behind a paywall,
+     subscription, membership requirement, registration fee, tuition
+     requirement, or other pay-to-access system;
+
+  d. Include the Software or any modified version of it in a paid course,
+     paid training program, certificate program, commercial workshop,
+     commercial educational product, or other paid educational offering;
+
+  e. Bundle the Software with a paid product or service, including software,
+     course materials, textbooks, subscriptions, consulting services, or
+     training services;
+
+  f. Use the Software or any modified version of it to provide paid hosting,
+     software-as-a-service, consulting, support, or other commercial services;
+
+  g. Remove, alter, or conceal any copyright, attribution, or license notices;
+
+  h. Represent the Software or any modified version of it as your own
+     original work; or
+
+  i. Impose additional restrictions, fees, paywalls, or access conditions on
+     copies or modified versions of the Software.
+
+3. Attribution and License Notice
+
+The copyright notice and this license must be included in all copies or
+substantial portions of the Software.
+
+Any modified version or derivative work must clearly indicate that it has
+been modified from the original Software and must include a copy of this
+license.
+
+You may add your own copyright notice for your modifications, but you may not
+remove or replace the original copyright notice.
+
+4. Free Availability
+
+The Software and all copies or modified versions distributed under this
+license must be made available to recipients free of charge and without
+paywall, subscription, tuition, registration fee, or other payment required
+to obtain access to the Software itself.
+
+This provision does not prohibit an educational institution from charging
+lawful fees for unrelated educational services, provided that access to the
+Software is not conditioned on payment and the Software is not incorporated
+into a paid course or commercial offering in violation of section 2.
+
+5. Ownership
+
+The Software is licensed, not sold. No ownership rights in the original
+Software are transferred by this license.
+
+All rights not expressly granted by this license are reserved by the
+copyright holder.
+
+6. Termination
+
+This license automatically terminates if you violate any of its terms. Upon
+termination, you must stop using, sharing, and distributing the Software and
+must delete all copies in your possession or control, unless the copyright
+holder provides written permission to continue using it.
+
+Rights granted to recipients who received the Software or a modified version
+from you before your violation are not automatically terminated, provided
+that those recipients comply with this license.
+
+7. Commercial Permissions
+
+The copyright holder may grant separate written permission for commercial
+use, paid distribution, inclusion in paid courses or products, paywalled
+access, or other uses not permitted by this license.
+
+Requests for additional permissions may be directed to:
+
+[Alissa Morgan]
+[alissamorgan2013@gmaill.com]
+
+8. Disclaimer of Warranty
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
