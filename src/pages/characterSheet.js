@@ -20,61 +20,74 @@ const CharacterSheet = () => {
     const [character, setCharacter] = useState(null);
     const [race, setRace] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
-    useEffect(() => { (async () => {
-            const arr = await getCharacterById(id);
-            const fetchCharacter = arr[0] ?? null;
-            setCharacter(fetchCharacter);
-            if(fetchCharacter){
-                const fetchRace = await getRaceById(fetchCharacter.raceid);
-                const fetchClass = await getClassById(fetchCharacter.classid);
-                setRace(fetchRace[0] ?? null);
-                setCharacterClass(fetchClass[0] ?? null);
+
+        useEffect(() => { (async () => {
+            if(id){
+                const fetchCharacter = await getCharacterById(id);
+                console.log(fetchCharacter);
+                setCharacter(fetchCharacter);
+                if(fetchCharacter.raceid){
+                    const fetchRace = await getRaceById(fetchCharacter.raceid);
+                    console.log(fetchRace);
+                    setRace(fetchRace);
+                } else{
+                    console.log("No Race Id Provided");
+                }
+                if(fetchCharacter.classid){
+                    const fetchClass = await getClassById(fetchCharacter.classid);
+                    console.log(fetchClass);
+                    setCharacterClass(fetchClass);
+                } else{
+                    console.log("No Class Id Provided");
+                }
             }else{
-                setRace(null);
-                setCharacterClass(null);
+                console.log("No Character Id Provided");
             }
+            
         })();
     }, [id]);
-        useEffect(() => {
-        console.log("Character Sheet mounted");
+
     
-        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-            const wsUrl = `${protocol}//${window.location.hostname}:3001`;
-            const ws = new WebSocket(wsUrl);
-    
-        ws.onopen = () => {
-            console.log("WebSocket connected");
-        };
-    
-        ws.onmessage = (event) => {
-            console.log("WebSocket message received:", event.data);
-    
-            try{
-                const data = JSON.parse(event.data);
+    useEffect(() => {
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+        const wsUrl = `${protocol}//${window.location.hostname}:3001`;
+        const ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+        console.log("WebSocket connected");
+    };
+
+    ws.onmessage = async (event) => {
+        console.log("WebSocket message received:", event.data);
+        try{
+            const data = JSON.parse(event.data);
+
+            if(data.type === "fake-time-broadcast"){
                 settimerBroadcast(data);
-            }catch (error){
-                console.error("Could not parse timerBroadcast:", error);
             }
-        };
-    
-        ws.onerror = (event) => {
-            console.error("WebSocket error:", event);
-        };
-    
-        ws.onclose = (event) => {
-            console.log(
-            "WebSocket closed:",
-            "code =", event.code,
-            "reason =", event.reason,
-            "clean =", event.wasClean
-            );
-        };
-    
-        return () => {
-            console.log("Closing WebSocket");
-            ws.close();
-        };
-        }, []);
+        }catch (error){
+            console.error("Could not parse timerBroadcast:", error);
+        }
+    };
+
+    ws.onerror = (event) => {
+        console.error("WebSocket error:", event);
+    };
+
+    ws.onclose = (event) => {
+        console.log(
+        "WebSocket closed:",
+        "code =", event.code,
+        "reason =", event.reason,
+        "clean =", event.wasClean
+        );
+    };
+
+    return () => {
+        console.log("Closing WebSocket");
+        ws.close();
+    };
+    }, []);
     function changeCharacterHP(value){
         setCharacter((prev) => {
             const next = {...prev, hp: value};
