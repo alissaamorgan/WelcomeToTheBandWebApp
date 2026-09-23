@@ -48,13 +48,21 @@ const DmScreen = () => {
 
     return (
         <div>
-            {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
-            <h1 className="PhoneTime">
-                <img className = "sunAndMoon" alt="sunAndMoon" src={getMoonandSunImage(timerBroadcast?.fakeUnix ?? 0)}></img>
-                {getFakeTimeWithSeconds(timerBroadcast?.fakeUnix ?? 0)}
-            </h1>
-            <button onClick={() => StartClock()}> start </button>
-            <button onClick={() => StopClock()}> stop </button>
+            <div className="characterSheetHeader">
+
+            </div>
+            <div className="characterSheetPage">
+                <div className="dmScreenTimeMangerForm">
+                    {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
+                    <h1 className="PhoneTime">
+                        <img className = "sunAndMoon" alt="sunAndMoon" src={getMoonandSunImage(timerBroadcast?.fakeUnix ?? 0)}></img>
+                        {getFakeTimeWithSeconds(timerBroadcast?.fakeUnix ?? 0)}
+                    </h1>
+                    <button onClick={() => StartClock()}> start </button>
+                    <button onClick={() => StopClock()}> stop </button>
+                </div>
+                
+            </div>
         </div>
     );
 };

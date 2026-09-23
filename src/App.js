@@ -10,6 +10,7 @@ import CharacterCreation from "./pages/characterCreation.js";
 import CharacterSelection from "./pages/characterSelection.js";
 import CharacterSheet from "./pages/characterSheet.js";
 import DmScreen from "./pages/dmScreen.js";
+import DmScreenPlayerManager from "./pages/dmScreenPlayerManager.js";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/characterSelection" element={<CharacterSelection />} />
                 <Route path="/characterSheet/:id" element={<CharacterSheet />} />
                 <Route path="/dmScreen" element={<DmScreen />} />
+                <Route path="/dmScreenPlayerManager" element={<DmScreenPlayerManager />} />
             </Routes>
         </Router>
     );

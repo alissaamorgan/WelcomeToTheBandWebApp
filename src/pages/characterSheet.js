@@ -153,7 +153,6 @@ const CharacterSheet = () => {
                 </div>
                 <div className="characterSheetPage">
                     <div className="characterSheetPhone">
-                        
                         <img className = "phone" src={phone} alt="Phone"></img>
                         <div className="phoneBackground">
                             <img className = "phoneSettingsButton" src={phoneSettings} alt="phoneSettings" onClick={() => alert("phoneSettings")}></img>
@@ -166,14 +165,13 @@ const CharacterSheet = () => {
                                 </div>
                             </div>
                             <div className="phoneNotificationContainer">
-                                {notifications.map((notification, index) => (
-                                    <div className = "phoneNotification" key={notification.id} style={{ '--i': index }}>
+                                {notifications.map((notification) => (
+                                    <div className = "phoneNotification" key={notification.id}>
                                         <div className="phoneNotificationText">
-                                            <div className="phoneNotificationApp" style={{ '--i': index }}>{notification.app}</div>
+                                            <div className="phoneNotificationApp">{notification.app}</div>
                                             <div className="phoneNotificationTitle">{notification.title}</div>
                                             <div className="phoneNotificationMessage">{notification.message}</div>
                                         </div>
-                                        
                                         <img className = "phoneNotificationImage" src={phoneNotification} alt="phoneNotificationImage"></img>
                                     </div>
                                 ))}
@@ -189,60 +187,54 @@ const CharacterSheet = () => {
                                     <img className = "autopsyImage" src={autopsy} alt="Autposy"></img>
                             </div>
                             <div className="characterSheetInteractive">
-                                <div className = "row">
-                                    <div className="interactiveCounterBox">
-                                        <h3>Current Hit Points</h3>
-                                        <button type="button" className="hpCounterDown, counter" onClick={() => changeCharacterHP(character.hp - 1)}>
-                                                -
-                                        </button>
-                                        <h4>{character?.hp ?? 0}</h4>
-                                        <button type="button" className="hpCounterUp, counter" onClick={() => changeCharacterHP(character.hp + 1)}>
-                                                +
-                                        </button>
-                                    </div>
+                                <div className="interactiveCounterBox">
+                                    <h3>Current Hit Points</h3>
+                                    <button type="button" className="counter" onClick={() => changeCharacterHP(character.hp - 1)}>
+                                            -
+                                    </button>
+                                    <h4>{character?.hp ?? 0}</h4>
+                                    <button type="button" className="counter" onClick={() => changeCharacterHP(character.hp + 1)}>
+                                            +
+                                    </button>
                                 </div>
-                                <div className = "row">
-                                    <div className="interactiveCounterBox">
-                                        <h3>{characterClass?.classPointName ?? "Class Points"}</h3>
-                                        <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints - 1)}>
-                                                -
-                                        </button>
-                                        <h4>{character?.classPoints ?? 0}</h4>
-                                        <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints + 1)}>
-                                                +
-                                        </button>
-                                    </div>
+                                <div className="interactiveCounterBox">
+                                    <h3>{characterClass?.classPointName ?? "Class Points"}</h3>
+                                    <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints - 1)}>
+                                            -
+                                    </button>
+                                    <h4>{character?.classPoints ?? 0}</h4>
+                                    <button type="button" className="counter" onClick={() => changeCharacterClassPoints(character.classPoints + 1)}>
+                                            +
+                                    </button>
                                 </div>
-                                <div className = "row">
-                                    <div className="interactiveCounterBox">
-                                        <table>
-                                            <thead>
-                                                <tr>
-                                                    <th colSpan="4"><h3>Death Saves</h3></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Successes</td>
-                                                    <td><input className="checkbox" type="checkbox" 
-                                                        checked={character?.deathS1 ?? 0} onChange={() => toggleDeathCheckboxes('deathS1')}></input></td>
-                                                    <td><input className="checkbox" type="checkbox" 
-                                                        checked={character?.deathS2 ?? 0} onChange={() => toggleDeathCheckboxes('deathS2')}></input></td>
-                                                    <td><input className="checkbox" type="checkbox" 
-                                                        checked={character?.deathS3 ?? 0} onChange={() => toggleDeathCheckboxes('deathS3')}></input></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Failures</td>
-                                                    <td><input className="checkbox" type="checkbox" 
-                                                        checked={character?.deathF1 ?? 0} onChange={() => toggleDeathCheckboxes('deathF1')}></input></td>
-                                                    <td><input className="checkbox" type="checkbox" 
-                                                        checked={character?.deathF2 ?? 0} onChange={() => toggleDeathCheckboxes('deathF2')}></input></td>
-                                                    <td><input className="checkbox" type="checkbox" 
-                                                        checked={character?.deathF3 ?? 0} onChange={() => toggleDeathCheckboxes('deathF3')}></input></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div className="interactiveCounterBox">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th colSpan="4"><h3>Death Saves</h3></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Successes</td>
+                                                <td><input className="checkbox" type="checkbox" 
+                                                    checked={character?.deathS1 ?? 0} onChange={() => toggleDeathCheckboxes('deathS1')}></input></td>
+                                                <td><input className="checkbox" type="checkbox" 
+                                                    checked={character?.deathS2 ?? 0} onChange={() => toggleDeathCheckboxes('deathS2')}></input></td>
+                                                <td><input className="checkbox" type="checkbox" 
+                                                    checked={character?.deathS3 ?? 0} onChange={() => toggleDeathCheckboxes('deathS3')}></input></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Failures</td>
+                                                <td><input className="checkbox" type="checkbox" 
+                                                    checked={character?.deathF1 ?? 0} onChange={() => toggleDeathCheckboxes('deathF1')}></input></td>
+                                                <td><input className="checkbox" type="checkbox" 
+                                                    checked={character?.deathF2 ?? 0} onChange={() => toggleDeathCheckboxes('deathF2')}></input></td>
+                                                <td><input className="checkbox" type="checkbox" 
+                                                    checked={character?.deathF3 ?? 0} onChange={() => toggleDeathCheckboxes('deathF3')}></input></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div className="characterSheetDebuffs">
