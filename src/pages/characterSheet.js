@@ -45,9 +45,9 @@ const CharacterSheet = () => {
                 console.log("No Class Id Provided");
             }
             const fetchNotifications = await getNotificationByCharacterId(id);
-            console.log(fetchNotifications);
-            if(!fetchNotifications === null){
+            if(fetchNotifications != []){
                 setNotifications(fetchNotifications);
+                console.log(fetchNotifications);
             }
         }else{
             console.log("No Character Id Provided");
@@ -169,6 +169,7 @@ const CharacterSheet = () => {
                                 {notifications.map((notification, index) => (
                                     <div className = "phoneNotification" key={notification.id} style={{ '--i': index }}>
                                         <img className = "phoneNotificationImage" src={phoneNotification} alt="phoneNotificationImage"></img>
+                                        <div>{notification.app}</div>
                                     </div>
                                 ))}
                             </div>
