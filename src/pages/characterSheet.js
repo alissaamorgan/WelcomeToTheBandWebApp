@@ -168,8 +168,13 @@ const CharacterSheet = () => {
                             <div className="phoneNotificationContainer">
                                 {notifications.map((notification, index) => (
                                     <div className = "phoneNotification" key={notification.id} style={{ '--i': index }}>
+                                        <div className="phoneNotificationText">
+                                            <div className="phoneNotificationApp" style={{ '--i': index }}>{notification.app}</div>
+                                            <div className="phoneNotificationTitle">{notification.title}</div>
+                                            <div className="phoneNotificationMessage">{notification.message}</div>
+                                        </div>
+                                        
                                         <img className = "phoneNotificationImage" src={phoneNotification} alt="phoneNotificationImage"></img>
-                                        <div>{notification.app}</div>
                                     </div>
                                 ))}
                             </div>
