@@ -3,6 +3,8 @@ import './pages.css';
 import {getCharacters, UpdateCharacter, getClassById, getNotificationByCharacterId} from "../api/useApiSocket.js";
 import DynamicDebuffsTable from './dynamicTable.js';
 import phoneNotification from '../assets/Notification.png';
+import edit from '../assets/EditIcon.png';
+import deleteIcon from '../assets/DeleteIcon.png';
 
 const DmScreenPlayerManager = () => {
     const [characters, setCharacters] = useState([]);
@@ -10,6 +12,7 @@ const DmScreenPlayerManager = () => {
         { title: "Item 1", description: 'Description'},
         { title: "Item 2", description: 'Description'}
     ];
+    const notificationApp = [{ title: "Sinsta Gran"}, { title: "Messages"}];
     const [character, setCharacter] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
     const [notifications, setNotifications] = useState([]);
@@ -37,8 +40,7 @@ const DmScreenPlayerManager = () => {
         })();
     }, []);
 
-    async function selectCharacter(){
-        const index = document.getElementById("playerManagerSelect").value;
+    async function selectCharacter(index){
         const fetchCharacter = characters[index];
         setCharacter(characters[index]);
         if (fetchCharacter.id){
@@ -102,7 +104,7 @@ const DmScreenPlayerManager = () => {
                     </table>
                 </div>
                 <div className="playerManagerPlayerForm">
-                    <select className="playerManagerPlayerFormTitle" id = "playerManagerSelect" onClick={() => selectCharacter()}>
+                    <select className="playerManagerPlayerFormTitle" id = "playerManagerSelect" onClick={(e) => selectCharacter(e.target.value)}>
                         {characters.map((character, index) => (
                             <option className = "playerManagerCharacterSelection" key={character.id} value={index}>
                                 {character.name}
@@ -180,15 +182,42 @@ const DmScreenPlayerManager = () => {
                                         <div className="playerManagerNotificationText">
                                             <div className="playerManagerNotificationApp">{notification.app}</div>
                                             <div className="playerManagerNotificationTitle">{notification.title}</div>
-                                            <div className="playerManagerNotificationMessage">{notification.message}</div>
+                                            <div className="playerManagerNotificationMessage">{notification.message}</div>                                   
                                         </div>
                                         <img className = "playerManagerNotificationImage" src={phoneNotification} alt="phoneNotificationImage"></img>
+                                        <div className="playerManagerNotificationIcon">
+                                            <img className = "playerManagerNotificationDelete" src={deleteIcon} alt="playerManagerNotificationDelete" onClick={() => alert("delete")}></img>
+                                            <img className = "playerManagerNotificationEdit" src={edit} alt="playerManagerNotificationEdit" onClick={() => alert("edit")}></img>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
-                        </div>
-                    <div>
-
+                                <div className="playerManagerNotificationForm">
+                                    <button className="playerManagerNotificationFormSubmit">+</button>
+                                    <div className="playerManagerNotificationFormRight">
+                                        <div className="playerManagerNotificationFormInputs">
+                                            <div className="playerManagerNotificationFormTitle">
+                                                <label>Title:</label>
+                                                <input type="text" value={"TITLE"} onChange={(e) => console.log(e.target.value)} />
+                                            </div>
+                                            <div className="playerManagerNotificationFormTitle">
+                                                <label>Application:</label>
+                                                <select id = "NotificationApp" onClick={(e) => console.log(e.target.value)}>
+                                                    {notificationApp.map((app) => (
+                                                        <option className = "playerManagerCharacterSelection" key={app.title} value={app.title}>
+                                                            {app.title}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="playerManagerNotificationFormMessage">
+                                            <input type="text" value="BODY" onChange={(e) => console.log(e.target.value)}/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div>
                     </div>
                 </div>
             </div>
