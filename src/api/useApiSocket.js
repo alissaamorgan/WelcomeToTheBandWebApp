@@ -213,3 +213,21 @@ export async function getNotificationByCharacterId(characterid) {
       return []; // important so callers get an array
     }
 }
+
+export async function createNotification({characterid, app, title, message}) {
+    try {
+      const response = await fetch(apiUrl + `/api/createNotification`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({characterid, app, title, message}),
+    });
+
+    if (!response.ok) {
+      const txt = await response.text();
+      throw new Error(txt);
+    }
+    return await response.json();
+    }catch (err) {
+      alert(`Network error: ${String(err)}`);
+    }
+}

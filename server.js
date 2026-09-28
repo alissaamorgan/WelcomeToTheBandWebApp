@@ -352,7 +352,7 @@ async function getNotifications() {
 }
 
 async function getNotificationsByCharacterId(characterId) {
-  const rows = await db.all("SELECT * FROM notification WHERE characterid = ?", [characterId]);
+  const rows = await db.all("SELECT * FROM notification WHERE characterid = ? ORDER BY id DESC", [characterId]);
   return rows.map(toNotification);
 }
 
@@ -441,5 +441,20 @@ app.get("/api/getAllNotifications", async (_req, res) => {
 
 app.get("/api/getNotificationByCharacterId/:characterid", async (req, res) => {
   const characterid = Number(req.params.characterid);
+  res.json(await getNotificationsByCharacterId(characterid));
+});
+
+app.post("/api/createNotification", async (req, res) => {
+  const {characterid, app, title, message} = req.body;
+
+  console.log({characterid, app, title, message});
+
+  await db.run(
+    `
+    INSERT INTO notification (characterid, app, title, message)
+    VALUES (?, ?, ?, ?)
+    `,
+    [characterid, app, title, message]
+  );
   res.json(await getNotificationsByCharacterId(characterid));
 });

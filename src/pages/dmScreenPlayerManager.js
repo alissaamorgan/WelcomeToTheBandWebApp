@@ -1,6 +1,6 @@
 import { useEffect, useState} from "react";
 import './pages.css';
-import {getCharacters, UpdateCharacter, getClassById, getNotificationByCharacterId} from "../api/useApiSocket.js";
+import {getCharacters, UpdateCharacter, getClassById, getNotificationByCharacterId, createNotification} from "../api/useApiSocket.js";
 import DynamicDebuffsTable from './dynamicTable.js';
 import phoneNotification from '../assets/Notification.png';
 import edit from '../assets/EditIcon.png';
@@ -16,6 +16,7 @@ const DmScreenPlayerManager = () => {
     const [character, setCharacter] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
     const [notifications, setNotifications] = useState([]);
+    const [newNotification, setNewNotification] = useState({characterid: 0, app: notificationApp[0].title, title: "TITLE", message: "BODY"});
     useEffect(() => {
         (async () => {
             const arr = await getCharacters();
@@ -74,6 +75,16 @@ const DmScreenPlayerManager = () => {
             return next;
         });
     };
+
+    async function createNotificationWithValidations(){
+        if(!character?.id){
+            return alert("Notification Creation Failed: No Character Id");
+        }
+
+        createNotification({...newNotification, characterid: character.id});
+        setNewNotification({characterid: 0, app: notificationApp[0].title, title: "TITLE", message: "BODY"});
+        setNotifications(await getNotificationByCharacterId(character.id));
+    }
 
     return (
         <div>
@@ -193,26 +204,26 @@ const DmScreenPlayerManager = () => {
                                 ))}
                             </div>
                                 <div className="playerManagerNotificationForm">
-                                    <button className="playerManagerNotificationFormSubmit">+</button>
+                                    <button className="playerManagerNotificationFormSubmit" onClick={() => createNotificationWithValidations()}>+</button>
                                     <div className="playerManagerNotificationFormRight">
                                         <div className="playerManagerNotificationFormInputs">
                                             <div className="playerManagerNotificationFormTitle">
                                                 <label>Title:</label>
-                                                <input type="text" value={"TITLE"} onChange={(e) => console.log(e.target.value)} />
+                                                <input type="text" value={newNotification?.title ?? ""} onChange={(e) => setNewNotification({...newNotification, title: e.target.value})} />
                                             </div>
                                             <div className="playerManagerNotificationFormTitle">
                                                 <label>Application:</label>
-                                                <select id = "NotificationApp" onClick={(e) => console.log(e.target.value)}>
-                                                    {notificationApp.map((app) => (
-                                                        <option className = "playerManagerCharacterSelection" key={app.title} value={app.title}>
-                                                            {app.title}
+                                                <select id = "NotificationApp" onClick={(e) => setNewNotification({...newNotification, app: e.target.value})}>
+                                                    {notificationApp.map((application) => (
+                                                        <option className = "playerManagerCharacterSelection" key={application.title} value={application.title}>
+                                                            {application.title}
                                                         </option>
                                                     ))}
                                                 </select>
                                             </div>
                                         </div>
                                         <div className="playerManagerNotificationFormMessage">
-                                            <input type="text" value="BODY" onChange={(e) => console.log(e.target.value)}/>
+                                            <input type="text"  value={newNotification?.message ?? ""} onChange={(e) => setNewNotification({...newNotification, message: e.target.value})}/>
                                         </div>
                                     </div>
                                 </div>
