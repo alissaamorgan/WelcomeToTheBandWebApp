@@ -57,8 +57,8 @@ await db.exec(`
     charisma INTEGER DEFAULT 0 NOT NULL,
     instrumentOrGenre TEXT DEFAULT "-" NOT NULL,
     characterSheetUrl TEXT,
-    phoneCase INTEGER, 
-    phoneBackground INTEGER,
+    phoneCase INTEGER DEFAULT 1 NOT NULL, 
+    phoneBackground INTEGER DEFAULT 1 NOT NULL,
     FOREIGN KEY (raceid) REFERENCES race(id),
     FOREIGN KEY (classid) REFERENCES class(id)
   );
