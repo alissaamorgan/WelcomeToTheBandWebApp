@@ -56,6 +56,9 @@ await db.exec(`
     wisdom INTEGER DEFAULT 0 NOT NULL,
     charisma INTEGER DEFAULT 0 NOT NULL,
     instrumentOrGenre TEXT DEFAULT "-" NOT NULL,
+    characterSheetUrl TEXT,
+    phoneCase INTEGER, 
+    phoneBackground INTEGER,
     FOREIGN KEY (raceid) REFERENCES race(id),
     FOREIGN KEY (classid) REFERENCES class(id)
   );
@@ -352,7 +355,7 @@ async function getNotifications() {
 }
 
 async function getNotificationsByCharacterId(characterId) {
-  const rows = await db.all("SELECT * FROM notification WHERE characterid = ? ORDER BY id DESC", [characterId]);
+  const rows = await db.all("SELECT * FROM notification WHERE characterid = ? AND isdeleted = 0 ORDER BY id DESC", [characterId]);
   return rows.map(toNotification);
 }
 
@@ -457,4 +460,18 @@ app.post("/api/createNotification", async (req, res) => {
     [characterid, app, title, message]
   );
   res.json(await getNotificationsByCharacterId(characterid));
+});
+
+app.post("/api/deleteNotification/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  await db.run(
+    `
+    UPDATE notification
+    SET
+      isdeleted = 1
+    WHERE id = ?
+    `,
+    [id]
+  );
+  res.json(await getNotifications());
 });

@@ -1,25 +1,18 @@
-import { useEffect, useState, React } from "react";
+import { useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import './pages.css';
 import characterSelection from '../assets/CharacterSelection.png';
 import longRestButton from '../assets/LongRestButton.png';
-import phone from '../assets/Phone.png';
-import phoneTopBar from '../assets/Topbarphone.png';
-import phoneSettings from '../assets/phoneSettings.png';
-import phoneNotification from '../assets/Notification.png';
-import exampleSheet from '../assets/ExampleSheet.png';
 import autopsy from '../assets/Autopsy.png';
 import papercorner from '../assets/Embeleshmets/Papercorner.png';
 import paperclip from '../assets/Embeleshmets/Paperclip.png';
 import tape from '../assets/Embeleshmets/Tape.png';
-import DynamicDebuffsTable from './dynamicTable.js';
+import {DynamicDebuffsTable, PhoneRender} from './dynamicTable.js';
 import folderTab from '../assets/FolderTab.png';
 import {getCharacterById, UpdateCharacter, getRaceById, getClassById, getNotificationByCharacterId} from "../api/useApiSocket.js";
-import {getFakeTime, getFakeDate, getMoonandSunImage} from './timer.js';
 
 const CharacterSheet = () => {
     const { id } = useParams();
-    const[timerBroadcast, settimerBroadcast] = useState(null);
     const [character, setCharacter] = useState(null);
     const [race, setRace] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
@@ -56,47 +49,6 @@ const CharacterSheet = () => {
         })();
     }, [id]);
 
-    
-    useEffect(() => {
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-        const wsUrl = `${protocol}//${window.location.hostname}:3001`;
-        const ws = new WebSocket(wsUrl);
-
-    ws.onopen = () => {
-        console.log("WebSocket connected");
-    };
-
-    ws.onmessage = async (event) => {
-        console.log("WebSocket message received:", event.data);
-        try{
-            const data = JSON.parse(event.data);
-
-            if(data.type === "fake-time-broadcast"){
-                settimerBroadcast(data);
-            }
-        }catch (error){
-            console.error("Could not parse timerBroadcast:", error);
-        }
-    };
-
-    ws.onerror = (event) => {
-        console.error("WebSocket error:", event);
-    };
-
-    ws.onclose = (event) => {
-        console.log(
-        "WebSocket closed:",
-        "code =", event.code,
-        "reason =", event.reason,
-        "clean =", event.wasClean
-        );
-    };
-
-    return () => {
-        console.log("Closing WebSocket");
-        ws.close();
-    };
-    }, []);
     function changeCharacterHP(value){
         setCharacter((prev) => {
             const next = {...prev, hp: value};
@@ -152,33 +104,8 @@ const CharacterSheet = () => {
                     <img className = "headerLongRestButton" src={longRestButton} alt="LongRestButton" onClick={() => longRest()}></img>
                 </div>
                 <div className="characterSheetPage">
-                    <div className="characterSheetPhone">
-                        <img className = "phone" src={phone} alt="Phone"></img>
-                        <div className="phoneBackground">
-                            <img className = "phoneSettingsButton" src={phoneSettings} alt="phoneSettings" onClick={() => alert("phoneSettings")}></img>
-                            <img className = "phoneTopBar" src={phoneTopBar} alt="PhoneTopBar"></img>
-                            <div className="characterSheetPhoneDate">
-                                <div className="phoneDate">{getFakeDate(timerBroadcast?.fakeUnix ?? 0)}</div>
-                                <div className="phoneTime">
-                                    <img className = "sunAndMoon" alt="sunAndMoon" src={getMoonandSunImage(timerBroadcast?.fakeUnix ?? 0)}></img>
-                                    {getFakeTime(timerBroadcast?.fakeUnix ?? 0)}
-                                </div>
-                            </div>
-                            <div className="phoneNotificationContainer">
-                                {notifications.map((notification) => (
-                                    <div className = "phoneNotification" key={notification.id}>
-                                        <div className="phoneNotificationText">
-                                            <div className="phoneNotificationApp">{notification.app}</div>
-                                            <div className="phoneNotificationTitle">{notification.title}</div>
-                                            <div className="phoneNotificationMessage">{notification.message}</div>
-                                        </div>
-                                        <img className = "phoneNotificationImage" src={phoneNotification} alt="phoneNotificationImage"></img>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        
-                    </div>
+
+                    <PhoneRender notifications = {notifications}></PhoneRender>
                     <div className="characterSheetSheet">
                         <div className="characterSheetModStats, table" >
                             <div className="characterSheetAutopsy" >
@@ -242,7 +169,9 @@ const CharacterSheet = () => {
                             </div>
                         </div>
                         <div className="characterSheet">
-                            <img className = "sheet" src={exampleSheet} alt="Sheet"></img>
+                             <iframe className="sheetIframe" width="100%" height="600" frameborder="0" title="embeddedSheet"
+                                src={"https://docs.google.com/spreadsheets/d/e/" + character?.characterSheetUrl + "/pubhtml?widget=false&headers=false&chrome=false"}>
+                            </iframe>
                         </div>
                     </div>
                 </div>

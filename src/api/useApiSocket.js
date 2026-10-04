@@ -226,8 +226,26 @@ export async function createNotification({characterid, app, title, message}) {
       const txt = await response.text();
       throw new Error(txt);
     }
+    alert("Notification Created");
     return await response.json();
     }catch (err) {
+      alert(`Network error: ${String(err)}`);
+    }
+}
+
+export async function deleteNotificationById(id) {
+    try {
+      const response = await fetch(apiUrl + `/api/deleteNotification/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      
+      if (!response.ok) {
+        const txt = await response.text();
+        throw new Error(txt);
+      }
+      alert("Notification Deleted");
+    } catch (err) {
       alert(`Network error: ${String(err)}`);
     }
 }

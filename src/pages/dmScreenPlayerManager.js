@@ -1,6 +1,6 @@
 import { useEffect, useState} from "react";
 import './pages.css';
-import {getCharacters, UpdateCharacter, getClassById, getNotificationByCharacterId, createNotification} from "../api/useApiSocket.js";
+import {getCharacters, UpdateCharacter, getClassById, getNotificationByCharacterId, createNotification, deleteNotificationById} from "../api/useApiSocket.js";
 import DynamicDebuffsTable from './dynamicTable.js';
 import phoneNotification from '../assets/Notification.png';
 import edit from '../assets/EditIcon.png';
@@ -16,7 +16,7 @@ const DmScreenPlayerManager = () => {
     const [character, setCharacter] = useState(null);
     const [characterClass, setCharacterClass] = useState(null);
     const [notifications, setNotifications] = useState([]);
-    const [newNotification, setNewNotification] = useState({characterid: 0, app: notificationApp[0].title, title: "TITLE", message: "BODY"});
+    const [newNotification, setNewNotification] = useState({characterid: 0, app: notificationApp[0].title, title: "", message: ""});
     useEffect(() => {
         (async () => {
             const arr = await getCharacters();
@@ -82,8 +82,7 @@ const DmScreenPlayerManager = () => {
         }
 
         createNotification({...newNotification, characterid: character.id});
-        setNewNotification({characterid: 0, app: notificationApp[0].title, title: "TITLE", message: "BODY"});
-        setNotifications(await getNotificationByCharacterId(character.id));
+        setNewNotification({characterid: 0, app: notificationApp[0].title, title: "", message: ""});
     }
 
     return (
@@ -115,7 +114,7 @@ const DmScreenPlayerManager = () => {
                     </table>
                 </div>
                 <div className="playerManagerPlayerForm">
-                    <select className="playerManagerPlayerFormTitle" id = "playerManagerSelect" onClick={(e) => selectCharacter(e.target.value)}>
+                    <select className="playerManagerPlayerFormTitle" id = "playerManagerSelect" onChange={(e) => selectCharacter(e.target.value)}>
                         {characters.map((character, index) => (
                             <option className = "playerManagerCharacterSelection" key={character.id} value={index}>
                                 {character.name}
@@ -197,7 +196,7 @@ const DmScreenPlayerManager = () => {
                                         </div>
                                         <img className = "playerManagerNotificationImage" src={phoneNotification} alt="phoneNotificationImage"></img>
                                         <div className="playerManagerNotificationIcon">
-                                            <img className = "playerManagerNotificationDelete" src={deleteIcon} alt="playerManagerNotificationDelete" onClick={() => alert("delete")}></img>
+                                            <img className = "playerManagerNotificationDelete" src={deleteIcon} alt="playerManagerNotificationDelete" onClick={() => deleteNotificationById(notification.id)}></img>
                                             <img className = "playerManagerNotificationEdit" src={edit} alt="playerManagerNotificationEdit" onClick={() => alert("edit")}></img>
                                         </div>
                                     </div>
@@ -209,7 +208,7 @@ const DmScreenPlayerManager = () => {
                                         <div className="playerManagerNotificationFormInputs">
                                             <div className="playerManagerNotificationFormTitle">
                                                 <label>Title:</label>
-                                                <input type="text" value={newNotification?.title ?? ""} onChange={(e) => setNewNotification({...newNotification, title: e.target.value})} />
+                                                <input type="text" placeholder="TITLE" value={newNotification?.title ?? ""} onChange={(e) => setNewNotification({...newNotification, title: e.target.value})} />
                                             </div>
                                             <div className="playerManagerNotificationFormTitle">
                                                 <label>Application:</label>
@@ -223,7 +222,7 @@ const DmScreenPlayerManager = () => {
                                             </div>
                                         </div>
                                         <div className="playerManagerNotificationFormMessage">
-                                            <input type="text"  value={newNotification?.message ?? ""} onChange={(e) => setNewNotification({...newNotification, message: e.target.value})}/>
+                                            <input type="text"  placeholder="BODY" value={newNotification?.message ?? ""} onChange={(e) => setNewNotification({...newNotification, message: e.target.value})}/>
                                         </div>
                                     </div>
                                 </div>

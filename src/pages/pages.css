@@ -195,6 +195,11 @@ body{
     width: calc(100% - 500px);
 }
 
+.sheetIframe{
+    height: 400px;
+    width: 800px;
+}
+
 .characterSheetModStats{
     min-height: 400px;
     height: fit-content;
@@ -341,13 +346,11 @@ td{
 
 .characterSheet{
     max-height: 400px;
-    height: fit-content;
     overflow-y: scroll;
-    width: fit-content;
     border: solid;
     border-color: black;
     border-radius: 2px;
-    background-color: white;
+    scrollbar-width: none;
 }
 
 .characterSelectionBody{
