@@ -1,9 +1,19 @@
 import { useEffect, useState} from "react";
-import phone from '../assets/Phone.png';
+import phone from '../assets/Blankphonesamecrop.PNG';
 import phoneTopBar from '../assets/Topbarphone.png';
 import phoneSettings from '../assets/phoneSettings.png';
 import phoneNotification from '../assets/Notification.png';
 import {getFakeTime, getFakeDate, getMoonandSunImage} from './timer.js';
+import blueCase from '../assets/PhoneCases/1blue.PNG';
+import pinkCase from '../assets/PhoneCases/2pink.PNG';
+import orangeCase from '../assets/PhoneCases/3orange.PNG';
+import greenCase from '../assets/PhoneCases/4green.PNG';
+import whiteCase from '../assets/PhoneCases/5white.PNG';
+import background1 from '../assets/PhoneBackgrounds/1.PNG';
+import background2 from '../assets/PhoneBackgrounds/2.PNG';
+import background3 from '../assets/PhoneBackgrounds/3.PNG';
+import background4 from '../assets/PhoneBackgrounds/4.PNG';
+import background5 from '../assets/PhoneBackgrounds/5.PNG';
 
 export const DynamicDebuffsTable = () => {
     const debuffs = [
@@ -33,7 +43,42 @@ export const DynamicDebuffsTable = () => {
     );
 };
 
-export function PhoneRender({ notifications = [] }){
+function phoneCaseIdToImport(phoneCaseId){
+    switch (phoneCaseId){
+        case 1:
+            return blueCase;
+        case 2:
+            return pinkCase;
+        case 3:
+            return orangeCase;
+        case 4:
+            return greenCase;
+        case 5:
+            return whiteCase;
+        default:
+            return;
+    }
+}
+
+function phoneBackgroundIdToImport(phoneBackgroundId){
+    console.log(phoneBackgroundId);
+    switch (phoneBackgroundId){
+        case 1:
+            return background1;
+        case 2:
+            return background2;
+        case 3:
+            return background3;
+        case 4:
+            return background4;
+        case 5:
+            return background5;
+        default:
+            return;
+    }
+}
+
+export function PhoneRender({ notifications = [] , phoneCase, phoneBackground}){
     const[timerBroadcast, settimerBroadcast] = useState(null);
 
     useEffect(() => {
@@ -78,10 +123,12 @@ export function PhoneRender({ notifications = [] }){
     }, []);
     return(
         <div className="characterSheetPhone">
+            <img className = "phoneCase" src={phoneCaseIdToImport(phoneCase)} alt="PhoneCase"></img>
             <img className = "phone" src={phone} alt="Phone"></img>
+            <img className = "phoneTopBar" src={phoneTopBar} alt="PhoneTopBar"></img>
+            <button className = "phoneSettingsButton" src={phoneSettings} alt="phoneSettings" onClick={() => alert("phoneSettings")}></button>
+            <img className = "phoneBackgroundImage" src={phoneBackgroundIdToImport(phoneBackground)} alt="PhoneBackground"></img>
             <div className="phoneBackground">
-                <img className = "phoneSettingsButton" src={phoneSettings} alt="phoneSettings" onClick={() => alert("phoneSettings")}></img>
-                <img className = "phoneTopBar" src={phoneTopBar} alt="PhoneTopBar"></img>
                 <div className="characterSheetPhoneDate">
                     <div className="phoneDate">{getFakeDate(timerBroadcast?.fakeUnix ?? 0)}</div>
                     <div className="phoneTime">

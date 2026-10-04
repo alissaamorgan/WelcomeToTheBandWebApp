@@ -105,7 +105,7 @@ const CharacterSheet = () => {
                 </div>
                 <div className="characterSheetPage">
 
-                    <PhoneRender notifications = {notifications}></PhoneRender>
+                    <PhoneRender notifications = {notifications} phoneCase = {character?.phoneCase ?? 0} phoneBackground = {character?.phoneBackground ?? 0}></PhoneRender>
                     <div className="characterSheetSheet">
                         <div className="characterSheetModStats, table" >
                             <div className="characterSheetAutopsy" >
