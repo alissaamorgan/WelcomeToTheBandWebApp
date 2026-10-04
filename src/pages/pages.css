@@ -447,7 +447,41 @@ button[type=submit]:hover {
 
 .playerManagerBandInformation{
     width:  40%;
+    
+}
+
+.BandInventoryTable{
     background-color: white;
+}
+
+.cassette{
+    width: 100%;
+    transform: rotate(-15deg);
+    margin-bottom: auto;
+    position: relative;
+}
+
+.cassetteImage{
+    width: 550px;
+}
+
+.cassetteInformation{
+    position: absolute;
+    top: 40px;
+    left: 90px;
+    color: red;
+    font-family: cursive;
+}
+
+.cassetteInformationBandName{
+    font-size: 40px;
+}
+
+.cassetteSubInformation{
+    display: flex;
+    margin-top: 120px;
+    font-size: 26px;
+    flex-wrap: wrap;
 }
 
 .playerManagerPlayerForm{

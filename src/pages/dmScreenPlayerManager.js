@@ -1,6 +1,7 @@
 import { useEffect, useState} from "react";
 import './pages.css';
 import {getCharacters, UpdateCharacter, getClassById, getNotificationByCharacterId, createNotification, deleteNotificationById} from "../api/useApiSocket.js";
+import cassette from '../assets/Cassette.PNG';
 import DynamicDebuffsTable from './dynamicTable.js';
 import phoneNotification from '../assets/Notification.png';
 import edit from '../assets/EditIcon.png';
@@ -92,26 +93,35 @@ const DmScreenPlayerManager = () => {
             </div>
             <div className="playerManagerPage">
                 <div className="playerManagerBandInformation">
-                    <div>Band Information</div>
-                    <div>Total Fans: </div>
-                    <div>Band Level: </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th colSpan="2"><h3>Band Inventory</h3></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {bandInventory.map((bandItem, index) => {
-                                return(
-                                    <tr key={index}>
-                                        <td key={bandItem.title}>{bandItem.title}</td>
-                                        <td key={bandItem.description}>{bandItem.description}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                    <div className="cassette">
+                        <img className = "cassetteImage" src={cassette} alt="cassette"></img>
+                        <div className="cassetteInformation">
+                            <div className="cassetteInformationBandName">Band Name</div>
+                            <div className="cassetteSubInformation">
+                                Total Fans: 0 :( Band Level: 1
+                            </div>
+                        </div>
+                    </div>
+                    <div className="BandInventoryTable">
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th colSpan="2"><h3>Band Inventory</h3></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {bandInventory.map((bandItem, index) => {
+                                    return(
+                                        <tr key={index}>
+                                            <td key={bandItem.title}>{bandItem.title}</td>
+                                            <td key={bandItem.description}>{bandItem.description}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div className="playerManagerPlayerForm">
                     <select className="playerManagerPlayerFormTitle" id = "playerManagerSelect" onChange={(e) => selectCharacter(e.target.value)}>
