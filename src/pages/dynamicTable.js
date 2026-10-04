@@ -9,11 +9,11 @@ import pinkCase from '../assets/PhoneCases/2pink.PNG';
 import orangeCase from '../assets/PhoneCases/3orange.PNG';
 import greenCase from '../assets/PhoneCases/4green.PNG';
 import whiteCase from '../assets/PhoneCases/5white.PNG';
-import background1 from '../assets/PhoneBackgrounds/1.PNG';
-import background2 from '../assets/PhoneBackgrounds/2.PNG';
-import background3 from '../assets/PhoneBackgrounds/3.PNG';
-import background4 from '../assets/PhoneBackgrounds/4.PNG';
-import background5 from '../assets/PhoneBackgrounds/5.PNG';
+import background1 from '../assets/PhoneBackgrounds/Cute.PNG';
+import background2 from '../assets/PhoneBackgrounds/Girlboss.PNG';
+import background3 from '../assets/PhoneBackgrounds/Innerpeace.PNG';
+import background4 from '../assets/PhoneBackgrounds/Mnstr.PNG';
+import background5 from '../assets/PhoneBackgrounds/Nosfurryatu.PNG';
 
 export const DynamicDebuffsTable = () => {
     const debuffs = [
