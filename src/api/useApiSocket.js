@@ -129,6 +129,25 @@ export async function UpdateCharacterPhoneBackground(characterId, phoneBackgroun
   }
 }
 
+export async function UpdateCharacterPhoneCase(characterId, phoneCaseId) {
+  try {
+    const response = await fetch(apiUrl + `/api/UpdateCharacterPhoneCase`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({characterId, phoneCaseId}),
+  });
+
+  if (!response.ok) {
+    const txt = await response.text();
+    alert(`Save failed: ${txt}`);
+    return false;
+  }
+  return await response.json();
+  }catch (err) {
+    alert(`Network error: ${String(err)}`);
+  }
+}
+
 export const getRaces = async () => {
   try {
     const response = await fetch(apiUrl + `/api/getAllRaces`, {

@@ -123,12 +123,13 @@ body{
     z-index: 4;
 }
 
-.settingsBackgroundTiles{
+.settingsTilesSegment{
     display: flex;
     justify-content: space-evenly;
     height: 60px;
     overflow: hidden;
     margin-top: 10px;
+    margin-bottom: 40px;
 }
 
 .settingsTile{
@@ -137,6 +138,10 @@ body{
     border-radius: 5px;
     border-width: 2px;
     border-style: solid;
+}
+
+.settingsTileCaseImage{
+    width: 60px;
 }
 
 .settingsTileImage{

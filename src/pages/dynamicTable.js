@@ -3,13 +3,18 @@ import phone from '../assets/Blankphonesamecrop.PNG';
 import phoneTopBar from '../assets/Topbarphone.png';
 import phoneSettings from '../assets/phoneSettings.png';
 import phoneNotification from '../assets/Notification.png';
-import {UpdateCharacterPhoneBackground} from '../api/useApiSocket.js';
+import {UpdateCharacterPhoneBackground, UpdateCharacterPhoneCase} from '../api/useApiSocket.js';
 import {getFakeTime, getFakeDate, getMoonandSunImage} from './timer.js';
 import blueCase from '../assets/PhoneCases/1blue.PNG';
 import pinkCase from '../assets/PhoneCases/2pink.PNG';
 import orangeCase from '../assets/PhoneCases/3orange.PNG';
 import greenCase from '../assets/PhoneCases/4green.PNG';
 import whiteCase from '../assets/PhoneCases/5white.PNG';
+import starCaseIcon from '../assets/PhoneCaseIcons/starCase.png';
+import heartCaseIcon from '../assets/PhoneCaseIcons/heartCase.png';
+import middleFingerCaseIcon from '../assets/PhoneCaseIcons/middleFingerCase.png';
+import leafCaseIcon from '../assets/PhoneCaseIcons/leafCase.png';
+import bowCaseIcon from '../assets/PhoneCaseIcons/bowCase.png';
 import background1 from '../assets/PhoneBackgrounds/Cute.PNG';
 import background2 from '../assets/PhoneBackgrounds/Girlboss.PNG';
 import background3 from '../assets/PhoneBackgrounds/Innerpeace.PNG';
@@ -82,7 +87,9 @@ export function PhoneRender({ notifications = [] , phoneCase, phoneBackground, c
     const[timerBroadcast, settimerBroadcast] = useState(null);
     const[settingsPopUp, setSettingsPopUp] = useState(false);
     const phoneBackgrounds = [background1, background2, background3, background4, background5];
+    const phoneCaseIcons = [starCaseIcon, heartCaseIcon, middleFingerCaseIcon, leafCaseIcon, bowCaseIcon];
     const[currentBackground, setCurrentBackground] = useState(null);
+    const[currentCase, setCurrentCase] = useState(null);
 
     useEffect(() => {
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
@@ -135,14 +142,29 @@ export function PhoneRender({ notifications = [] , phoneCase, phoneBackground, c
         setCurrentBackground(newbackground.phoneBackground);
         toggleSettingsPopUp();
     }
+
+    async function changeCase(caseId){
+        const newcase= await UpdateCharacterPhoneCase(characterId, caseId)
+        setCurrentCase(newcase.phoneCase);
+        toggleSettingsPopUp();
+    }
     return(
         <div className="characterSheetPhone">
-            <img className = "phoneCase" src={phoneCaseIdToImport(phoneCase)} alt="PhoneCase"></img>
+            <img className = "phoneCase" src={phoneCaseIdToImport(currentCase ?? phoneCase)} alt="PhoneCase"></img>
             <img className = "phone" src={phone} alt="Phone"></img>
             <img className = "phoneTopBar" src={phoneTopBar} alt="PhoneTopBar"></img>
             <button className = "phoneSettingsButton" src={phoneSettings} alt="phoneSettings" onClick={() => toggleSettingsPopUp()}></button>
             <div className = "phoneSettingsPopUp" id="phoneSettingsPopUpId" hidden>
-                <div className="settingsBackgroundTiles">
+                <div className="settingsTilesSegment">
+                    {phoneCaseIcons.map((caseIcon, index) => {
+                        return(
+                            <div className="settingsTile" onClick={() => changeCase(index + 1)}>
+                                <img src={caseIcon} alt="caseIcon" className="settingsTileCaseImage" key={index} ></img>
+                            </div>
+                        );
+                    })}
+                </div>
+                <div className="settingsTilesSegment">
                     {phoneBackgrounds.map((background, index) => {
                         return(
                             <div className="settingsTile" onClick={() => changeBackground(index + 1)}>
@@ -151,6 +173,7 @@ export function PhoneRender({ notifications = [] , phoneCase, phoneBackground, c
                         );
                     })}
                 </div>
+                
             </div>
             <img className = "phoneBackgroundImage" src={phoneBackgroundIdToImport(currentBackground?? phoneBackground)} alt="PhoneBackground"></img>
             <div className="phoneBackground">

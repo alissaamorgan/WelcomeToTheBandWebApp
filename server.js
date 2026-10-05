@@ -440,6 +440,26 @@ app.post("/api/UpdateCharacterPhoneBackground", async (req, res) => {
   }
 });
 
+app.post("/api/UpdateCharacterPhoneCase", async (req, res) => {
+  const{characterId, phoneCaseId} = req.body;
+  try {
+    await db.run(
+      `
+      UPDATE characters
+      SET phoneCase = ?
+      WHERE id = ?;
+      `,
+      [phoneCaseId, characterId]
+    );
+
+    res.json(await getCharacterById(characterId));
+
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
 app.get("/api/getAllRaces", async (_req, res) => {
   res.json(await getRaces());
 });
