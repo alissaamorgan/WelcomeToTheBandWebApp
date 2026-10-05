@@ -1,9 +1,10 @@
-import { useEffect, useState, React } from "react";
+import { useEffect, useState} from "react";
 import './pages.css';
+import DmScreenHeader from './dmScreenHelper.js';
 import {getFakeTimeWithSeconds, getFakeDate, getMoonandSunImage} from './timer.js'
 import {StartClock, StopClock} from "../api/useApiSocket.js";
 
-const DmScreen = () => {
+const DmScreenTimerManager = () => {
     const[timerBroadcast, settimerBroadcast] = useState(null);
     useEffect(() => {
     console.log("DmScreen mounted");
@@ -48,9 +49,7 @@ const DmScreen = () => {
 
     return (
         <div>
-            <div className="characterSheetHeader">
-
-            </div>
+            <DmScreenHeader/>
             <div className="characterSheetPage">
                 <div className="dmScreenTimeMangerForm">
                     {getFakeDate(timerBroadcast?.fakeUnix ?? 0)}
@@ -67,4 +66,4 @@ const DmScreen = () => {
     );
 };
 
-export default DmScreen;
+export default DmScreenTimerManager;

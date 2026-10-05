@@ -9,8 +9,10 @@ import Home from "./pages/home.js";
 import CharacterCreation from "./pages/characterCreation.js";
 import CharacterSelection from "./pages/characterSelection.js";
 import CharacterSheet from "./pages/characterSheet.js";
-import DmScreen from "./pages/dmScreen.js";
+import DmScreenTimeManager from "./pages/dmScreenTimeManager.js";
 import DmScreenPlayerManager from "./pages/dmScreenPlayerManager.js";
+import DmScreenCombatManager from "./pages/dmScreenCombatManager.js";
+import DmScreenShopManager from "./pages/dmScreenShopManager.js";
 
 function App() {
     return (
@@ -21,8 +23,10 @@ function App() {
                 <Route path="/characterCreation" element={<CharacterCreation />} />
                 <Route path="/characterSelection" element={<CharacterSelection />} />
                 <Route path="/characterSheet/:id" element={<CharacterSheet />} />
-                <Route path="/dmScreen" element={<DmScreen />} />
+                <Route path="/dmScreenTimeManager" element={<DmScreenTimeManager />} />
                 <Route path="/dmScreenPlayerManager" element={<DmScreenPlayerManager />} />
+                <Route path="/dmScreenCombatManager" element={<DmScreenCombatManager/>}/>
+                <Route path="/dmScreenShopManager" element={<DmScreenShopManager/>}/>
             </Routes>
         </Router>
     );

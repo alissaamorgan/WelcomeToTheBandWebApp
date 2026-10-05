@@ -65,6 +65,28 @@ body{
     justify-content: space-between;
 }
 
+.DmScreenHeader{
+    height: var(--header-height);
+    background-color: black;
+    width: 100%;
+    display: flex;
+}
+
+.HeaderButton{
+    background-color: black;
+    border-color: white;
+    border-style: solid;
+    border-width: 5px;
+    color: rgb(228, 63, 13);
+    font-size: larger;
+    width: 150px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    justify-self: center;
+}
+
 .characterSheetName{
     position: absolute;
     top: calc(var(--header-height) * 0.4);

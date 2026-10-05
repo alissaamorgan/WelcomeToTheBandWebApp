@@ -1,5 +1,6 @@
 import { useEffect, useState} from "react";
 import './pages.css';
+import DmScreenHeader from './dmScreenHelper.js';
 import {getCharacters, UpdateCharacter, getClassById, getNotificationByCharacterId, createNotification, deleteNotificationById} from "../api/useApiSocket.js";
 import cassette from '../assets/Cassette.PNG';
 import DynamicDebuffsTable from './dynamicTable.js';
@@ -88,9 +89,7 @@ const DmScreenPlayerManager = () => {
 
     return (
         <div>
-            <div className="characterSheetHeader">
-
-            </div>
+            <DmScreenHeader/>
             <div className="playerManagerPage">
                 <div className="playerManagerBandInformation">
                     <div className="cassette">
