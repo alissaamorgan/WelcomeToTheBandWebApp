@@ -3,6 +3,7 @@ import phone from '../assets/Blankphonesamecrop.PNG';
 import phoneTopBar from '../assets/Topbarphone.png';
 import phoneSettings from '../assets/phoneSettings.png';
 import phoneNotification from '../assets/Notification.png';
+import {UpdateCharacterPhoneBackground} from '../api/useApiSocket.js';
 import {getFakeTime, getFakeDate, getMoonandSunImage} from './timer.js';
 import blueCase from '../assets/PhoneCases/1blue.PNG';
 import pinkCase from '../assets/PhoneCases/2pink.PNG';
@@ -61,7 +62,6 @@ function phoneCaseIdToImport(phoneCaseId){
 }
 
 function phoneBackgroundIdToImport(phoneBackgroundId){
-    console.log(phoneBackgroundId);
     switch (phoneBackgroundId){
         case 1:
             return background1;
@@ -78,8 +78,11 @@ function phoneBackgroundIdToImport(phoneBackgroundId){
     }
 }
 
-export function PhoneRender({ notifications = [] , phoneCase, phoneBackground}){
+export function PhoneRender({ notifications = [] , phoneCase, phoneBackground, characterId}){
     const[timerBroadcast, settimerBroadcast] = useState(null);
+    const[settingsPopUp, setSettingsPopUp] = useState(false);
+    const phoneBackgrounds = [background1, background2, background3, background4, background5];
+    const[currentBackground, setCurrentBackground] = useState(null);
 
     useEffect(() => {
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
@@ -121,13 +124,35 @@ export function PhoneRender({ notifications = [] , phoneCase, phoneBackground}){
         ws.close();
     };
     }, []);
+
+    function toggleSettingsPopUp(){
+        setSettingsPopUp(!settingsPopUp);
+        document.querySelector("#phoneSettingsPopUpId").hidden = settingsPopUp;
+    }
+
+    async function changeBackground(backgroundId){
+        const newbackground = await UpdateCharacterPhoneBackground(characterId, backgroundId)
+        setCurrentBackground(newbackground.phoneBackground);
+        toggleSettingsPopUp();
+    }
     return(
         <div className="characterSheetPhone">
             <img className = "phoneCase" src={phoneCaseIdToImport(phoneCase)} alt="PhoneCase"></img>
             <img className = "phone" src={phone} alt="Phone"></img>
             <img className = "phoneTopBar" src={phoneTopBar} alt="PhoneTopBar"></img>
-            <button className = "phoneSettingsButton" src={phoneSettings} alt="phoneSettings" onClick={() => alert("phoneSettings")}></button>
-            <img className = "phoneBackgroundImage" src={phoneBackgroundIdToImport(phoneBackground)} alt="PhoneBackground"></img>
+            <button className = "phoneSettingsButton" src={phoneSettings} alt="phoneSettings" onClick={() => toggleSettingsPopUp()}></button>
+            <div className = "phoneSettingsPopUp" id="phoneSettingsPopUpId" hidden>
+                <div className="settingsBackgroundTiles">
+                    {phoneBackgrounds.map((background, index) => {
+                        return(
+                            <div className="settingsTile" onClick={() => changeBackground(index + 1)}>
+                                <img src={background} alt="background" className="settingsTileImage" key={index} ></img>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+            <img className = "phoneBackgroundImage" src={phoneBackgroundIdToImport(currentBackground?? phoneBackground)} alt="PhoneBackground"></img>
             <div className="phoneBackground">
                 <div className="characterSheetPhoneDate">
                     <div className="phoneDate">{getFakeDate(timerBroadcast?.fakeUnix ?? 0)}</div>

@@ -104,7 +104,7 @@ const CharacterSheet = () => {
                     <img className = "headerLongRestButton" src={longRestButton} alt="LongRestButton" onClick={() => longRest()}></img>
                 </div>
                 <div className="characterSheetPage">
-                    <PhoneRender notifications = {notifications} phoneCase = {character?.phoneCase ?? 0} phoneBackground = {character?.phoneBackground ?? 0}></PhoneRender>
+                    <PhoneRender notifications = {notifications} phoneCase = {character?.phoneCase ?? 0} phoneBackground = {character?.phoneBackground ?? 0} characterId = {character?.id}></PhoneRender>
                     <div className="characterSheetSheet">
                         <div className="characterSheetModStats, table" >
                             <div className="characterSheetAutopsy" >

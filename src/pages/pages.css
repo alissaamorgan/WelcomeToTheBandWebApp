@@ -113,6 +113,38 @@ body{
     top: 15px;
 }
 
+.phoneSettingsPopUp{
+    background-color: ghostwhite;
+    height: 545px;
+    width: 345px;
+    position: absolute;
+    left: 69px;
+    top: 123px;
+    z-index: 4;
+}
+
+.settingsBackgroundTiles{
+    display: flex;
+    justify-content: space-evenly;
+    height: 60px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.settingsTile{
+    overflow: hidden;
+    border-color: gray;
+    border-radius: 5px;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.settingsTileImage{
+    width: 60px;
+    transform-origin: center;
+    transform: scale(1.5);
+}
+
 .phoneBackgroundImage{
     max-height: 870px;
     position: absolute;

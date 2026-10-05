@@ -420,6 +420,26 @@ app.post("/api/UpdateCharacter", async (req, res) => {
   res.json(await getCharacterById(id));
 });
 
+app.post("/api/UpdateCharacterPhoneBackground", async (req, res) => {
+  const{characterId, phoneBackgroundId} = req.body;
+  try {
+    await db.run(
+      `
+      UPDATE characters
+      SET phoneBackground = ?
+      WHERE id = ?;
+      `,
+      [phoneBackgroundId, characterId]
+    );
+
+    res.json(await getCharacterById(characterId));
+
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
 app.get("/api/getAllRaces", async (_req, res) => {
   res.json(await getRaces());
 });
