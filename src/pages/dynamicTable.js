@@ -155,25 +155,29 @@ export function PhoneRender({ notifications = [] , phoneCase, phoneBackground, c
             <img className = "phoneTopBar" src={phoneTopBar} alt="PhoneTopBar"></img>
             <button className = "phoneSettingsButton" src={phoneSettings} alt="phoneSettings" onClick={() => toggleSettingsPopUp()}></button>
             <div className = "phoneSettingsPopUp" id="phoneSettingsPopUpId" hidden>
-                <div className="settingsTilesSegment">
-                    {phoneCaseIcons.map((caseIcon, index) => {
-                        return(
-                            <div className="settingsTile" onClick={() => changeCase(index + 1)}>
-                                <img src={caseIcon} alt="caseIcon" className="settingsTileCaseImage" key={index} ></img>
-                            </div>
-                        );
-                    })}
+                <div className="phoneSettingsPopUpTitle">Settings</div>
+                <div className="phoneSettingsPopUpInformation">
+                    <h3>Phone Cases</h3>
+                    <div className="settingsTilesSegment">
+                        {phoneCaseIcons.map((caseIcon, index) => {
+                            return(
+                                <div className="settingsTile" onClick={() => changeCase(index + 1)}>
+                                    <img src={caseIcon} alt="caseIcon" className="settingsTileCaseImage" key={index} ></img>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <h3>Backgrounds</h3>
+                    <div className="settingsTilesSegment">
+                        {phoneBackgrounds.map((background, index) => {
+                            return(
+                                <div className="settingsTile" onClick={() => changeBackground(index + 1)}>
+                                    <img src={background} alt="background" className="settingsTileImage" key={index} ></img>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-                <div className="settingsTilesSegment">
-                    {phoneBackgrounds.map((background, index) => {
-                        return(
-                            <div className="settingsTile" onClick={() => changeBackground(index + 1)}>
-                                <img src={background} alt="background" className="settingsTileImage" key={index} ></img>
-                            </div>
-                        );
-                    })}
-                </div>
-                
             </div>
             <img className = "phoneBackgroundImage" src={phoneBackgroundIdToImport(currentBackground?? phoneBackground)} alt="PhoneBackground"></img>
             <div className="phoneBackground">

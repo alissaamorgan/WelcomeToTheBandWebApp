@@ -115,21 +115,38 @@ body{
 
 .phoneSettingsPopUp{
     background-color: ghostwhite;
-    height: 545px;
-    width: 345px;
+    height: 520px;
+    width: 320px;
     position: absolute;
-    left: 69px;
-    top: 123px;
+    left: 82px;
+    top: 137px;
     z-index: 4;
+    border-radius: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: ghostwhite;
+}
+
+.phoneSettingsPopUpInformation{
+    padding-left: 10px;
+    padding-right: 10px;
+    
+}
+
+.phoneSettingsPopUpTitle{
+    background-color: rgb(185, 183, 183);
+    padding-left: 10px;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: rgb(185, 183, 183);
 }
 
 .settingsTilesSegment{
     display: flex;
     justify-content: space-evenly;
-    height: 60px;
+    height: 55px;
     overflow: hidden;
-    margin-top: 10px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .settingsTile{
@@ -141,11 +158,11 @@ body{
 }
 
 .settingsTileCaseImage{
-    width: 60px;
+    width: 55px;
 }
 
 .settingsTileImage{
-    width: 60px;
+    width: 55px;
     transform-origin: center;
     transform: scale(1.5);
 }
