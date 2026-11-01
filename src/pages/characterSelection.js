@@ -2,7 +2,6 @@ import { useEffect, useState, React } from "react";
 import './pages.css';
 import {getCharacters} from "../api/useApiSocket.js";
 import folder from '../assets/Folder.png'
-import characterCreator from '../assets/CharacterCreator.png'
 
 
 const CharacterSelection = () => {
@@ -16,7 +15,7 @@ const CharacterSelection = () => {
     return (
         <div>
             <div className="characterSheetHeader">
-                <img className = "headerCharacterSelectionButton" src={characterCreator} alt="CharacterCreation" onClick={() => window.location = '/characterCreation'}></img>
+                <button className="HeaderButton" onClick={() => window.location = '/characterCreation'}>CHARACTER CREATOR</button>
             </div>
             <div className="characterSelectionBody">
                 {characters.map((character, index) => (

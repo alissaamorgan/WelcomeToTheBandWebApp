@@ -68,7 +68,9 @@ await db.exec(`
     bandLevel INTEGER DEFAULT 1 NOT NULL,
     fakeUnix INTEGER NOT NULL,
     running INTEGER NOT NULL DEFAULT 0,
-    startedAtUnix INTEGER
+    startedAtUnix INTEGER,
+    money INTEGER NOT NULL DEFAULT 0,
+    van TEXT
   );
 
   CREATE TABLE IF NOT EXISTS notification (
@@ -77,8 +79,20 @@ await db.exec(`
     app TEXT,
     title TEXT,
     message TEXT,
+    color TEXT,
     isdeleted INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (characterid) REFERENCES characters(id)
+  );
+
+  CREATE TABLE IF NOT EXISTS inventory (
+    id INTEGER PRIMARY KEY,
+    carrierId INTEGER,
+    count INTEGER,
+    item TEXT,
+    description TEXT,
+    arrivalTime INTEGER,
+    isdeleted INTEGER NOT NULL DEFAULT 0,
+    FOREIGN KEY (carrierId) REFERENCES characters(id)
   );
 `);
 

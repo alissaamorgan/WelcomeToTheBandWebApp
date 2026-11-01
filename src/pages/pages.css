@@ -34,7 +34,10 @@ body{
 }
 
 .homeOptions{
-    height: 25%;
+    width: 300px !important;
+    height: 100px;
+    font-size: xx-large !important;
+
 }
 
 .characterSheetMain{
@@ -79,6 +82,7 @@ body{
     border-width: 5px;
     color: rgb(228, 63, 13);
     font-size: larger;
+    font-family: Stencil Std, fantasy;
     width: 150px;
     margin-left: 20px;
     margin-right: 20px;

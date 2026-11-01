@@ -1,7 +1,6 @@
 import { useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import './pages.css';
-import characterSelection from '../assets/CharacterSelection.png';
 import longRestButton from '../assets/LongRestButton.png';
 import autopsy from '../assets/Autopsy.png';
 import papercorner from '../assets/Embeleshmets/Papercorner.png';
@@ -100,7 +99,7 @@ const CharacterSheet = () => {
                 <div className="characterSheetName">{character?.name ?? 0}</div>
                 <div className="characterSheetHeader">
                     <img className = "headerFolderTab" src={folderTab} alt="FolderTab"></img>
-                    <img className = "headerCharacterSelectionButton" src={characterSelection} alt="CharacterSelection" onClick={() => window.location = '/characterSelection'}></img>
+                    <button className="HeaderButton" onClick={() => window.location = '/characterSelection'}>CHARACTER SELECTION</button>
                     <img className = "headerLongRestButton" src={longRestButton} alt="LongRestButton" onClick={() => longRest()}></img>
                 </div>
                 <div className="characterSheetPage">

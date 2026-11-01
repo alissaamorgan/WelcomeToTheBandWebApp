@@ -25,6 +25,7 @@ function App() {
                 <Route path="/characterSheet/:id" element={<CharacterSheet />} />
                 <Route path="/dmScreenTimeManager" element={<DmScreenTimeManager />} />
                 <Route path="/dmScreenPlayerManager" element={<DmScreenPlayerManager />} />
+                <Route path="/dmScreen" element={<DmScreenPlayerManager />} />
                 <Route path="/dmScreenCombatManager" element={<DmScreenCombatManager/>}/>
                 <Route path="/dmScreenShopManager" element={<DmScreenShopManager/>}/>
             </Routes>
